@@ -4,7 +4,7 @@ var request = require('request');
 var moment = require('moment-timezone');
 
 var alpha = /^[A-Za-z]+$/;
-var alpha_dash = /^[a-zA-Z0-9-_]+$/;
+var alpha_num_dash = /^[a-zA-Z0-9-_]+$/;
 var alpha_num = /^[a-z0-9]+$/i;
 var valid_url = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
 
@@ -47,14 +47,11 @@ function isRequired(value) {
 
 function getSize(value) {
 
-    try {
-
+    if (value.length || value.length === 0) {
         return value.length;
-
-    } catch(e) {
-
-        return value;
     }
+    value = value || 0;
+    return value;
 }
 
 function validateMimes(value, file_extensions) {
@@ -150,11 +147,11 @@ module.exports = {
      * @param parameters
      * @param callback
      */
-    alpha_dash: function(data, field, value, parameters, callback) {
+    alpha_num_dash: function(data, field, value, parameters, callback) {
 
         if (_.isString(value)) {
 
-            return callback(null, alpha_dash.test(value));
+            return callback(null, alpha_num_dash.test(value));
         }
         callback(null, false);
     },
@@ -231,7 +228,7 @@ module.exports = {
 
         var size = getSize(value);
 
-        return callback(null, size >= parameters[0] && size <= parameters[1]);
+        return callback(null, size >= Number(parameters[0]) && size <= Number(parameters[1]));
     },
     /**
      * The field under validation must be able to be cast as a boolean.
