@@ -32,6 +32,7 @@ function isIn(field, value, values) {
 
         return values[field] !== undefined;
     }
+
     if (_.isArray(values)) {
 
         return values.indexOf(value) !== -1;
@@ -454,7 +455,7 @@ module.exports = {
             return callback(new Error('The values parameter is required.'));
         }
 
-        callback(null, isIn(value, parameters));
+        callback(null, isIn(field, value, parameters));
     },
     /**
      * The field under validation must be an integer.
@@ -482,8 +483,25 @@ module.exports = {
 
         callback(null, isIPAddress(value));
     },
+    /**
+     * The field under validation must a valid JSON string.
+     *
+     * @param data
+     * @param field
+     * @param value
+     * @param parameters
+     * @param callback
+     * @returns {*}
+     */
     json: function(data, field, value, parameters, callback) {
-        //TODO
+
+        try {
+            JSON.parse(value);
+        }
+        catch(e) {
+            return callback(null, false);
+        }
+        callback(null, true);
     },
     /**
      * The field under validation must be less than or equal to a maximum value.

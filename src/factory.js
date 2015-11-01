@@ -259,6 +259,8 @@ module.exports = function factory(config, errorHandler, DB) {
             if (config.replacers[constraint.rule]) {
                 config.replacers[constraint.rule](field, constraint);
             }
+            config.replacers['default'](field, constraint);
+
             return constraint;
         }
 
