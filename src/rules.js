@@ -496,7 +496,7 @@ module.exports = {
     json: function(data, field, value, parameters, callback) {
 
         try {
-            JSON.parse(value);
+            var result = JSON.parse(value+'');
         }
         catch(e) {
             return callback(null, false);
