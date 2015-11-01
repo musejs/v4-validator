@@ -907,7 +907,7 @@ module.exports = {
      */
     timezone: function(data, field, value, parameters, callback) {
 
-        callback(null, moment().tz(value).isValid());
+        callback(null, !!moment.tz.zone(value));
     },
 
     /**
