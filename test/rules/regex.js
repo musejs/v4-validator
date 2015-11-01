@@ -33,12 +33,14 @@ describe('regex', function() {
         var data = {
             field_1: '123',
             field_2: 123,
-            field_3: 'abc123'
+            field_3: 'abc123',
+            field_4: 'abc123'
         };
         var rules = {
             field_1: 'regex:^[a-z0-9]+$,i',
             field_2: 'regex:^[a-z0-9]+$,i',
-            field_3: 'regex:^[a-z0-9]+$,i'
+            field_3: 'regex:^[a-z0-9]+$,i',
+            field_4: 'regex:^[a-z0-9]+$'
 
         };
 

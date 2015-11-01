@@ -42,16 +42,14 @@ function isIn(field, value, values) {
 
 function isRequired(value) {
 
-    if (_.isNull(value)) {
+    if (_.isUndefined(value)) {
         return false;
-    } else if(_.isString(value) && value === '') {
+    } else if (_.isNull(value)) {
         return false;
-    } else if (_.isArray(value) && value.length < 1) {
-        return false;
-    } else if (_.isUndefined(value)) {
+    } else if(!_.isUndefined(value.length) && !value.length) {
         return false;
     }
-    return !!value;
+    return true;
 }
 
 function getSize(value) {
@@ -727,10 +725,33 @@ module.exports = {
         var other_field = data[parameters[0]];
         for(var x = 0; x < parameters.length; x++) {
             if (x) {
+
                 if (other_field == parameters[x] && isRequired(value)) {
 
                     return callback(null, true);
                 }
+
+                if (parameters[x] == 'null' && other_field === null && isRequired(value)) {
+
+                    return callback(null, true);
+                }
+
+                if (parameters[x] == 'undefined' && other_field === undefined && isRequired(value)) {
+
+                    return callback(null, true);
+                }
+
+                if (parameters[x] == 'true' && other_field === true && isRequired(value)) {
+
+                    return callback(null, true);
+                }
+
+                if (parameters[x] == 'false' && other_field === false && isRequired(value)) {
+
+                    return callback(null, true);
+                }
+
+
             }
         }
         callback(null, false);
@@ -818,7 +839,7 @@ module.exports = {
         for (var x = 0; x < parameters.length; x++) {
 
             if (isRequired(data[parameters[x]])) {
-                return callbak(null, false);
+                return callback(null, false);
             }
         }
         callback(null, isRequired(value));

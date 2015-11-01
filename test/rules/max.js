@@ -4,7 +4,6 @@ var V4Validator = require('../../src/factory')();
 
 describe('max', function() {
 
-
     it('should not pass without the max argument', function (done) {
 
         var data = {
