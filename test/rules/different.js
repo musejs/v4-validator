@@ -14,7 +14,7 @@ describe('different', function() {
             field_1: 'different'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -36,7 +36,7 @@ describe('different', function() {
             field_1: 'different:field_2'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -62,7 +62,7 @@ describe('different', function() {
         };
 
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

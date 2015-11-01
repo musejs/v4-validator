@@ -13,7 +13,7 @@ describe('not_in', function() {
             field_1: 'not_in'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -37,7 +37,7 @@ describe('not_in', function() {
             field_2: 'not_in:hola'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -58,7 +58,7 @@ describe('not_in', function() {
             field_1: 'not_in:hello,hey,hi'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

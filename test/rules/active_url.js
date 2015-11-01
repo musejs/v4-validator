@@ -13,7 +13,7 @@ describe('active_url', function() {
             field_1: 'active_url'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -38,7 +38,7 @@ describe('active_url', function() {
             field_3: 'active_url'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

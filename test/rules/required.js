@@ -27,7 +27,7 @@ describe('required', function() {
             field_8: 'required'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -55,7 +55,7 @@ describe('required', function() {
             field_5: 'required'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

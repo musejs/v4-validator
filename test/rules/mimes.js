@@ -14,7 +14,7 @@ describe('mimes', function() {
             field_1: 'mimes'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -50,7 +50,7 @@ describe('mimes', function() {
             field_8: 'mimes:html'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -86,7 +86,7 @@ describe('mimes', function() {
             field_8: 'mimes:txt'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

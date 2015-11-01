@@ -15,7 +15,7 @@ describe('date_format', function() {
             field_1: 'date_format'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -62,7 +62,7 @@ describe('date_format', function() {
 
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -112,7 +112,7 @@ describe('date_format', function() {
 
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

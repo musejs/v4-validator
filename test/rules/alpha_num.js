@@ -19,7 +19,7 @@ describe('alpha_num', function() {
             field_4: 'alpha_num'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -48,7 +48,7 @@ describe('alpha_num', function() {
             field_5: 'alpha_num'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

@@ -17,7 +17,7 @@ describe('required_with', function() {
             field_3: 'required_with'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -42,7 +42,7 @@ describe('required_with', function() {
             field_3: 'required_with:field_4,field_5,field_6'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -71,7 +71,7 @@ describe('required_with', function() {
             field_7: 'required_with:field_1'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

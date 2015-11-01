@@ -13,7 +13,7 @@ describe('size', function() {
             field_1: 'size'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -38,7 +38,7 @@ describe('size', function() {
             field_3: 'size:5'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -63,7 +63,7 @@ describe('size', function() {
             field_3: 'size:7'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

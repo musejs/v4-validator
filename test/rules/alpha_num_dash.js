@@ -21,7 +21,7 @@ describe('alpha_num_dash', function() {
             field_5: 'alpha_num_dash'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -55,7 +55,7 @@ describe('alpha_num_dash', function() {
 
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

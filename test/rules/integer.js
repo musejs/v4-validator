@@ -15,7 +15,7 @@ describe('integer', function() {
             field_2: 'integer'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -40,7 +40,7 @@ describe('integer', function() {
             field_3: 'integer'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

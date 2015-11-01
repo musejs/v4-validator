@@ -16,7 +16,7 @@ describe('before', function() {
             field_1: 'before'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -40,7 +40,7 @@ describe('before', function() {
             field_1: 'before:'+now.toISOString()
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -67,7 +67,7 @@ describe('before', function() {
             field_2: 'before:'+now.toISOString()
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

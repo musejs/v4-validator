@@ -13,7 +13,7 @@ describe('email', function() {
             field_1: 'email'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -42,7 +42,7 @@ describe('email', function() {
             field_5: 'email'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

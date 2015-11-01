@@ -23,7 +23,7 @@ describe('accepted', function() {
             field_6: 'accepted'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -56,7 +56,7 @@ describe('accepted', function() {
             field_7: 'accepted'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

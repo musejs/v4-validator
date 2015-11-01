@@ -16,7 +16,7 @@ describe('digits_between', function() {
             field_1: 'digits'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -38,7 +38,7 @@ describe('digits_between', function() {
             field_1: 'digits_between:1'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -63,7 +63,7 @@ describe('digits_between', function() {
             field_4: 'digits_between:4,7'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -92,7 +92,7 @@ describe('digits_between', function() {
         };
 
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

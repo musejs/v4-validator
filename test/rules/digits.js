@@ -16,7 +16,7 @@ describe('digits', function() {
             field_1: 'digits'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -43,7 +43,7 @@ describe('digits', function() {
             field_4: 'digits:6'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -67,7 +67,7 @@ describe('digits', function() {
         };
 
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

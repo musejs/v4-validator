@@ -2,21 +2,17 @@
 var should = require('should');
 var V4Validator = require('../../src/factory')();
 
-describe('ip', function() {
+describe('string', function() {
 
-    it('should pass when the field under validation is an IP address', function (done) {
+    it('should pass when the field under validation is a string', function (done) {
 
         var data = {
-            field_1: '123.123.123.123',
-            field_2: '192.168.0.1',
-            field_3: '10.1.1.1',
-            field_4: '172.16.0.1'
+            field_1: '1',
+            field_2: 'hello'
         };
         var rules = {
-            field_1: 'ip',
-            field_2: 'ip',
-            field_3: 'ip',
-            field_4: 'ip'
+            field_1: 'string',
+            field_2: 'string'
         };
 
         var validator = V4Validator.make(data, rules);
@@ -31,21 +27,21 @@ describe('ip', function() {
         });
     });
 
-    it('should not pass if the field under validation is not an IP address', function (done) {
+    it('should not pass if the field under validation is not an integer', function (done) {
 
         var data = {
-            field_1: '256.256.256.256',
-            field_2: '123.123.123.123.123',
-            field_3: '192.168.0',
-            field_4: '10.1',
-            field_5: '172'
+            field_1: true,
+            field_2: 1.5,
+            field_3: false,
+            field_4: null,
+            field_5: undefined
         };
         var rules = {
-            field_1: 'ip',
-            field_2: 'ip',
-            field_3: 'ip',
-            field_4: 'ip',
-            field_5: 'ip'
+            field_1: 'string',
+            field_2: 'string',
+            field_3: 'string',
+            field_4: 'string',
+            field_5: 'string'
         };
 
         var validator = V4Validator.make(data, rules);
@@ -59,10 +55,9 @@ describe('ip', function() {
             err.meta.should.have.property('field_3');
             err.meta.should.have.property('field_4');
             err.meta.should.have.property('field_5');
+
             done();
         });
 
     });
 });
-
-

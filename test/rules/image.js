@@ -25,7 +25,7 @@ describe('image', function() {
             field_6: 'image'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -48,7 +48,7 @@ describe('image', function() {
             field_2: 'image'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

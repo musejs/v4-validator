@@ -22,7 +22,7 @@ describe('date', function() {
             field_4: 'date'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -58,7 +58,7 @@ describe('date', function() {
             field_6: 'date',
             field_7: 'date'
         };
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

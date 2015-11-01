@@ -13,7 +13,7 @@ describe('in', function() {
             field_1: 'in'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -37,7 +37,7 @@ describe('in', function() {
             field_2: 'in:hello'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -58,7 +58,7 @@ describe('in', function() {
             field_1: 'in:hello,hey,hi'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

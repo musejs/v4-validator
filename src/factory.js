@@ -12,9 +12,9 @@ module.exports = function factory(config, errorHandler, DB) {
     }
 
     _.defaultsDeep(config, {
-        messages: require('./messages'),
-        rules: require('./rules'),
-        replacers: require('./replacers')
+        messages: _.clone(require('./messages'), true),
+        rules: _.clone(require('./rules'), true),
+        replacers: _.clone(require('./replacers'), true)
     });
 
     /**
@@ -207,13 +207,13 @@ module.exports = function factory(config, errorHandler, DB) {
                         }
 
                         var message = undefined;
-                        if (this._messages[rule]) {
-
-                            message = this._messages[rule];
-
-                        } else if (this._messages[field+'.'+rule]) {
+                        if (this._messages[field+'.'+rule]) {
 
                             message = this._messages[field+'.'+rule];
+
+                        } else if (this._messages[rule]) {
+
+                            message = this._messages[rule];
 
                         } else if (validation_messages[rule]) {
 

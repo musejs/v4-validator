@@ -17,7 +17,7 @@ describe('required_without_all', function() {
             field_3: 'required_without_all'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -41,7 +41,7 @@ describe('required_without_all', function() {
             field_3: 'required_without_all:field_4,field_6,field_7'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -71,7 +71,7 @@ describe('required_without_all', function() {
             field_8: 'required_without_all:field_7'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 

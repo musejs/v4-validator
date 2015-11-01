@@ -17,7 +17,7 @@ describe('required_if', function() {
             field_3: 'required_if'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -39,7 +39,7 @@ describe('required_if', function() {
             field_3: 'required_if:field_4'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -70,7 +70,7 @@ describe('required_if', function() {
             field_9: 'required_if:field_10,0'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
@@ -96,7 +96,7 @@ describe('required_if', function() {
             field_5: 'required_if:field_3,hola'
         };
 
-        var validator = new V4Validator(data, rules);
+        var validator = V4Validator.make(data, rules);
 
         validator.validate(function(err) {
 
