@@ -12,7 +12,8 @@ describe('image', function() {
             field_2: fixtures_dir+'sample-gif.gif',
             field_3: fixtures_dir+'sample-jpg.jpg',
             field_4: fixtures_dir+'sample-png.png',
-            field_5: 'http://www.bestmotherofthegroomspeeches.com/wp-content/themes/thesis/rotator/sample-1.jpg'
+            field_5: 'http://www.bestmotherofthegroomspeeches.com/wp-content/themes/thesis/rotator/sample-1.jpg',
+            field_6: fixtures_dir+'sample-png-2.PNG'
 
         };
         var rules = {
@@ -20,7 +21,8 @@ describe('image', function() {
             field_2: 'image',
             field_3: 'image',
             field_4: 'image',
-            field_5: 'image'
+            field_5: 'image',
+            field_6: 'image'
         };
 
         var validator = new V4Validator(data, rules);

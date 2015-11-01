@@ -402,12 +402,16 @@ module.exports = {
         if (_.startsWith(value, 'http')) {
 
             return http.get(value, res => {
+
                 res.on('error', function() {
+
                     callback(null, false);
                 });
+
                 res.once('data', chunk => {
 
                     res.destroy();
+
                     var result = fileType(chunk);
 
                     if (_.startsWith(result.mime, 'image/')) {
@@ -415,8 +419,14 @@ module.exports = {
                         return callback(null, true);
                     }
 
-                    var extension = path.extname(value);
-                    if (['jpg', 'jpeg', 'png', 'bmp', 'gif', 'svg'].indexOf(extension.replace('.', '')) !== -1) {
+                    var extension = mime.extension(result.mime);
+
+                    if (!extension) {
+                        extension = path.extname(value).replace('.', '');
+                    }
+
+                    if (['jpg', 'jpeg', 'png', 'bmp', 'gif', 'svg'].indexOf(extension) !== -1) {
+
                         return callback(null, true);
                     }
 
@@ -427,6 +437,7 @@ module.exports = {
         }
 
         var magic = new Magic(mmm.MAGIC_MIME_TYPE);
+
         magic.detectFile(value, function(err, type) {
 
             if (err) {
@@ -534,10 +545,84 @@ module.exports = {
     mimes: function(data, field, value, parameters, callback) {
 
         if (!parameters.length) {
+
             return callback(new Error('The file extensions to check against are required.'));
         }
 
-        validateMimes(value, parameters, callback);
+        if (_.startsWith(value, 'http')) {
+
+            return http.get(value, res => {
+
+                res.on('error', function() {
+                    callback(null, false);
+                });
+
+                res.once('data', chunk => {
+
+                    res.destroy();
+
+                    var result = fileType(chunk);
+
+                    if (parameters.indexOf(result.mime) !== -1) {
+
+                        return callback(null, true);
+                    }
+
+                    var extension = mime.extension(result.mime);
+
+                    if (!extension) {
+                        extension = path.extname(value).replace('.', '');
+                    }
+
+                    if (parameters.indexOf(extension) !== -1) {
+
+                        return callback(null, true);
+                    }
+                    if (extension == 'jpeg') {
+                        if (parameters.indexOf('jpg') !== -1) {
+
+                            return callback(null, true);
+                        }
+                    }
+                    callback(null, false);
+                });
+            });
+
+        }
+
+        var magic = new Magic(mmm.MAGIC_MIME_TYPE);
+
+        magic.detectFile(value, function(err, type) {
+
+            if (err) {
+
+                return callback(null, false);
+            }
+
+            if (parameters.indexOf(type) !== -1) {
+
+                return callback(null, true);
+            }
+
+            var extension = mime.extension(type);
+
+            if (!extension) {
+                extension = path.extname(value).replace('.', '');
+            }
+
+            if (parameters.indexOf(extension) !== -1) {
+
+                return callback(null, true);
+            }
+            if (extension == 'jpeg') {
+                if (parameters.indexOf('jpg') !== -1) {
+
+                    return callback(null, true);
+                }
+            }
+            callback(null, false);
+        });
+
     },
     /**
      * The field under validation must have a minimum value.
