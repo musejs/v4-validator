@@ -29,7 +29,7 @@ describe('after', function() {
     });
 
 
-    it('should pass when the field under validation is a value after a given date', function (done) {
+    it('should pass when the field under validation is a value after a given date. The dates will be passed into moment.js', function (done) {
 
         var now = moment();
 
@@ -54,7 +54,7 @@ describe('after', function() {
 
     });
 
-    it('should not pass if the field under validation is not a value after a given date', function (done) {
+    it('should not pass if the field under validation is not a value after a given date. The dates will be passed into moment.js', function (done) {
 
         var now = moment();
 

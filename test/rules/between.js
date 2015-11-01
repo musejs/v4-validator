@@ -44,7 +44,7 @@ describe('between', function() {
         });
     });
 
-    it('should pass when the field under validation is a size between the given min and max. Strings, numerics, and files are evaluated in the same fashion as the size rule.', function (done) {
+    it('should pass when the field under validation is a size between the given min and max. Strings, numerics, and files are evaluated in the same fashion as the size rule', function (done) {
 
         var data = {
             field_1: 'hello',
@@ -70,7 +70,7 @@ describe('between', function() {
         });
     });
 
-    it('should not pass if the field under validation is not a size between the given min and max. Strings, numerics, and files are evaluated in the same fashion as the size rule.', function (done) {
+    it('should not pass if the field under validation is not a size between the given min and max. Strings, numerics, and files are evaluated in the same fashion as the size rule', function (done) {
 
         var data = {
             field_1: 'hello',

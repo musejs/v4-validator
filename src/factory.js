@@ -202,7 +202,7 @@ module.exports = function factory(config, errorHandler) {
                         args = args || [];
 
                         var value = undefined;
-                        if (this._data[field]) {
+                        if (this._data[field] !== undefined) {
                             value = this._data[field];
                         }
 

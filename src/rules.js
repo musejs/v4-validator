@@ -119,7 +119,7 @@ module.exports = {
             return callback(new Error('The date parameter is required.'));
         }
 
-        callback(null, moment(value).isAfter(parameters[0]));
+        callback(null, moment(new Date(value)).isAfter(parameters[0]));
     },
     /**
      * The field under validation must be entirely alphabetic characters.
@@ -207,7 +207,7 @@ module.exports = {
             return callback(new Error('The date parameter is required.'));
         }
 
-        callback(null, moment(value).isBefore(parameters[0]));
+        callback(null, moment(new Date(value)).isBefore(parameters[0]));
     },
     /**
      * The field under validation must have a size between the given min and max.
@@ -282,7 +282,16 @@ module.exports = {
      */
     date: function(data, field, value, parameters, callback) {
 
-        callback(null, moment(value).isValid());
+        var is_date = false;
+        try {
+
+            is_date = moment(new Date(value)).isValid();
+
+        } catch(e) {
+
+        }
+
+        callback(null, is_date);
     },
     /**
      * The field under validation must match the given format.
@@ -301,7 +310,9 @@ module.exports = {
             return callback(new Error('The format parameter is required.'));
         }
 
-        callback(null, moment(value, parameters[0]).isValid());
+        var format = parameters.join(',');
+
+        callback(null, moment(value, format, true).isValid());
     },
     /**
      * The field under validation must have a different value than field.
