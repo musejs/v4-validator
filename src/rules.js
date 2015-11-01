@@ -1,11 +1,19 @@
+"use strict";
+
 var _ = require('lodash');
+var fileType = require('file-type');
 var http = require('http');
-var request = require('request');
 var moment = require('moment-timezone');
+var mmm = require('mmmagic');
+var Magic = mmm.Magic;
+var mime = require('mime');
+var path = require('path');
+var request = require('request');
+
 
 var alpha = /^[A-Za-z]+$/;
-var alpha_num_dash = /^[a-zA-Z0-9-_]+$/;
 var alpha_num = /^[a-z0-9]+$/i;
+var alpha_num_dash = /^[a-zA-Z0-9-_]+$/;
 var valid_url = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
 
 function isNumeric(value) {
@@ -54,17 +62,6 @@ function getSize(value) {
     return value;
 }
 
-function validateMimes(value, file_extensions) {
-
-    // TODO
-    return true;
-}
-
-function isAValidFileInstance(value) {
-
-    // TODO
-    return true;
-}
 
 module.exports = {
     /**
@@ -360,12 +357,12 @@ module.exports = {
     digits_between: function(data, field, value, parameters, callback) {
 
         if (parameters.length != 2) {
-            callback(new Error('The min and max parameters are required.'));
+            return callback(new Error('The min and max parameters are required.'));
         }
 
         var length = isNumeric(value) && (value + '').length;
 
-        callback(null, length >= parameters[0] && length <= parameters[1]);
+        callback(null, length >= parseInt(parameters[0]) && length <= parseInt(parameters[1]));
     },
     /**
      * The field under validation must be formatted as an e-mail address.
@@ -381,6 +378,15 @@ module.exports = {
         var tester = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$/;
         callback(null, tester.test(value));
     },
+
+    exists: function(data, field, value, parameters, callback) {
+
+        if (!DB) {
+            return callback(new Error('No database given.'));
+        }
+
+        callback(null, false); //TODO
+    },
     /**
      * The file under validation must be an image (jpeg, png, bmp, gif, or svg)
      *
@@ -392,7 +398,46 @@ module.exports = {
      */
     image: function(data, field, value, parameters, callback) {
 
-        callback(null, validateMimes(value, ['jpeg', 'png', 'gif', 'bmp', 'svg']));
+        if (_.startsWith(value, 'http')) {
+
+            return http.get(value, res => {
+                res.on('error', function() {
+                    callback(null, false);
+                });
+                res.once('data', chunk => {
+
+                    res.destroy();
+                    var result = fileType(chunk);
+
+                    if (_.startsWith(result.mime, 'image/')) {
+
+                        return callback(null, true);
+                    }
+
+                    var extension = path.extname(value);
+                    if (['jpg', 'jpeg', 'png', 'bmp', 'gif', 'svg'].indexOf(extension.replace('.', '')) !== -1) {
+                        return callback(null, true);
+                    }
+
+                    callback(null, false);
+                });
+            });
+
+        }
+
+        var magic = new Magic(mmm.MAGIC_MIME_TYPE);
+        magic.detectFile(value, function(err, type) {
+
+            if (err) {
+
+                return callback(null, false);
+            }
+            if (_.startsWith(type, 'image/')) {
+
+                return callback(null, true);
+            }
+            callback(null, false);
+        });
     },
     /**
      * The field under validation must be included in the given list of values.
@@ -474,7 +519,7 @@ module.exports = {
             return callback(new Error('The file extensions to check against are required.'));
         }
 
-        callback(null, validateMimes(value, parameters));
+        validateMimes(value, parameters, callback);
     },
     /**
      * The field under validation must have a minimum value.

@@ -26,7 +26,7 @@ describe('different', function() {
 
     });
 
-    it('should pass when the field under validation is a different value than field.', function (done) {
+    it('should pass when the field under validation is a different value than field', function (done) {
 
         var data = {
             field_1: 'hello',
@@ -48,7 +48,7 @@ describe('different', function() {
         });
     });
 
-    it('should not pass if the field under validation is not a different value than field.', function (done) {
+    it('should not pass if the field under validation is not a different value than field', function (done) {
 
         var data = {
             field_1: 'hello',

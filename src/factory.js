@@ -2,7 +2,7 @@
 var _ = require('lodash');
 var async = require('async');
 
-module.exports = function factory(config, errorHandler) {
+module.exports = function factory(config, errorHandler, DB) {
 
     /**
      * Setup defaults.
