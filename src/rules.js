@@ -654,6 +654,10 @@ module.exports = {
      */
     not_in: function(data, field, value, parameters, callback) {
 
+        if (!parameters.length) {
+            return callback(new Error('The values parameter is required.'));
+        }
+
         callback(null, !isIn(field, value, parameters));
     },
     /**
@@ -685,10 +689,12 @@ module.exports = {
         }
 
         if (_.isString(parameters[0])) {
-            parameters[0] = new RegExp(parameters[0]);
+
+            parameters[0] = RegExp.apply(null, parameters);
+            //parameters[0] = new RegExp(parameters[0]);
         }
 
-        callback(null, parameters[0].test(value));
+        callback(null, parameters[0].test(value+''));
     },
     /**
      * The field under validation must be present in the input data.
