@@ -426,7 +426,7 @@ validator.validate(function(err) {
 #### required
 The field under validation must be present in the input data.
 
-#### required_if:`another_field`[,...values]
+#### required_if:another_field[,...values]
 The field under validation must be present if `another_field` is equal to any `values`.
 ```
 var data = {
