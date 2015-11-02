@@ -16,7 +16,7 @@ in other musejs components.
 `require('v4-validator')` yields a factory function, with the following arguments: `config`, `errorHandler`, and 'DB'.
 All arguments are optional.
 
-Once the factory function is called, it will return a V4Validator class, which you may then use to create a new
+Once the factory function is called, it will return a `V4Validator` class, which you may then use to create a new
 validator instance whenever you wish to validate some data.  This can be done by calling either `new V4Validator(data, rules, messages)`
 or `V4Validator.make(data, rules, messages)`.
 
@@ -429,7 +429,31 @@ The field under validation must be present in the input data.
 #### required_if:`another_field`[,...values]
 The field under validation must be present if `another_field` is equal to any `values`.
 ```
+var data = {
+    field_1: 'hello',
+    field_2: 'hi',
+    field_3: 'hola',
+    field_4: null,
+    field_5: 'hey',
+    field_6: 'howdy',
+    field_7: 'yo',
+    field_8: false,
+    field_9: 'bro',
+    field_10: 0
+};
+var rules = {
+    field_1: 'required_if:field_2,hi',
+    field_3: 'required_if:field_4,null',
+    field_5: 'required_if:field_6,sup,howdy',
+    field_7: 'required_if:field_8,false',
+    field_9: 'required_if:field_10,0'
+};
 
+var validator = V4Validator.make(data, rules);
+
+validator.validate(function(err) {
+    // this will pass.
+});
 ```
 
 #### required_with:...fields
