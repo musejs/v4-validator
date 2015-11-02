@@ -135,23 +135,6 @@ module.exports = {
         callback(null, false);
     },
     /**
-     * The field under validation may have alpha-numeric characters, as well as dashes and underscores.
-     *
-     * @param data
-     * @param field
-     * @param value
-     * @param parameters
-     * @param callback
-     */
-    alpha_num_dash: function(data, field, value, parameters, callback) {
-
-        if (_.isString(value)) {
-
-            return callback(null, alpha_num_dash.test(value));
-        }
-        callback(null, false);
-    },
-    /**
      * The field under validation must be entirely alpha-numeric characters.
      *
      * @param data
@@ -172,6 +155,23 @@ module.exports = {
         }
         callback(null, false);
 
+    },
+    /**
+     * The field under validation may have alpha-numeric characters, as well as dashes and underscores.
+     *
+     * @param data
+     * @param field
+     * @param value
+     * @param parameters
+     * @param callback
+     */
+    alpha_num_dash: function(data, field, value, parameters, callback) {
+
+        if (_.isString(value)) {
+
+            return callback(null, alpha_num_dash.test(value));
+        }
+        callback(null, false);
     },
     /**
      * The field under validation must be an array.

@@ -13,13 +13,6 @@ function getPlaceholderRegex(placeholder) {
 }
 
 module.exports = {
-    "default": function(field, constraint) {
-
-        var attribute = getPlaceholderRegex('attribute');
-
-        constraint.message = constraint.message
-            .replace(attribute, _.snakeCase(field).split('_').join(' '));
-    },
     "after": function(field, constraint) {
 
         var date = getPlaceholderRegex('date');

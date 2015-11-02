@@ -48,7 +48,7 @@ describe('V4Validator', function() {
                 err.meta.should.have.property('field_2');
                 err.meta.should.have.property('field_3');
                 err.meta.should.have.property('field_4');
-                err.meta.should.have.property('field_5Tes');
+                err.meta.should.have.property('field_5');
 
                 err.meta.field_1[0].message.should.equal(required_message);
                 err.meta.field_2[0].message.should.equal(field_2_string_message);

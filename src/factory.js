@@ -1,8 +1,14 @@
 "use strict";
 var _ = require('lodash');
 var async = require('async');
+var default_replacer = Symbol('default_replacer');
 
 module.exports = function factory(config, errorHandler, DB) {
+
+
+    var messages = _.clone(require('./messages'), true);
+    var rules = _.clone(require('./rules'), true);
+    var replacers = _.clone(require('./replacers'), true);
 
     /**
      * Setup defaults.
@@ -12,10 +18,18 @@ module.exports = function factory(config, errorHandler, DB) {
     }
 
     _.defaultsDeep(config, {
-        messages: _.clone(require('./messages'), true),
-        rules: _.clone(require('./rules'), true),
-        replacers: _.clone(require('./replacers'), true)
+        messages: messages,
+        rules: rules,
+        replacers: replacers
     });
+
+    config.replacers[default_replacer] = function(field, constraint) {
+
+        var attribute = new RegExp(':attribute', 'g');
+
+        constraint.message = constraint.message
+            .replace(attribute, _.snakeCase(field).split('_').join(' '));
+    };
 
     /**
      * This function creates an error object.
@@ -256,10 +270,11 @@ module.exports = function factory(config, errorHandler, DB) {
          */
         static parseMessage(field, constraint) {
 
+            config.replacers[default_replacer](field, constraint);
+
             if (config.replacers[constraint.rule]) {
                 config.replacers[constraint.rule](field, constraint);
             }
-            config.replacers['default'](field, constraint);
 
             return constraint;
         }
@@ -289,6 +304,15 @@ module.exports = function factory(config, errorHandler, DB) {
         static replacer(rule, closure) {
 
             config.replacers[rule] = closure;
+        }
+
+        /**
+         * Returns the Symbol used to key the default replacer.
+         *
+         * @returns {Symbol}
+         */
+        static defaultReplacer() {
+            return default_replacer;
         }
 
     }
