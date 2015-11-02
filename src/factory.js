@@ -311,7 +311,7 @@ module.exports = function factory(config, errorHandler, DB) {
          *
          * @returns {Symbol}
          */
-        static defaultReplacer() {
+        static defaultReplacerKey() {
             return default_replacer;
         }
 

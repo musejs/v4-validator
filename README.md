@@ -1,4 +1,4 @@
-# v4-validator
+## v4-validator
 Handy extensible validator.
 
 This package is part of the [musejs](https://github.com/musejs) family of components.
@@ -8,11 +8,11 @@ and implements similar functionality.  This is not, however, a direct port.  Bes
 in PHP and the other is in node.js, v4-validator's implementation logic is its own, and adheres to the conventions found
 in other musejs components.
 
-# Installation
+## Installation
 
->npm install musejs/v4-validator
+`npm install musejs/v4-validator`
 
-# Usage
+## Usage
 `require('v4-validator')` yields a factory function, with the following arguments: `config`, `errorHandler`, and 'DB'.
 All arguments are optional.
 
@@ -27,7 +27,7 @@ values are either an array of rules, or a string of rules separated by a pipe ("
 and the corresponding values are a string.
 
 
-## Basic Example
+### Basic Example
 ```
 var V4Validator = require('v4-validator')();
 
@@ -61,16 +61,16 @@ A few things to note about this example:
 - Rules in this example were supplied interchangeably as either a string of combined rules, or as an array.
 - The `validate` function is asynchronous.
 
-# Rules
+### Rules
 
-## accepted
+#### accepted
 The field under validation must be yes, on, 1, or true. This is useful for validating "Terms of Service" acceptance.
 
-## active_url
+#### active_url
 The field under validation must be a valid, active URL (determined by sending a HEAD request).
 
-## after:date
-The field under validation must be a value after a given date. The dates will be passed into moment.js, and must therefore be [ISO-8601](http://momentjs.com/docs/#supported-iso-8601-strings) formatted.
+#### after:date
+The field under validation must be a value after a given date. The dates will be passed into moment.js, and must therefore be [ISO-8601](http://momentjs.com/docs/##supported-iso-8601-strings) formatted.
 ```
 var data = {
     field_1: '2015-11-03T01:27:33.153Z'
@@ -83,55 +83,55 @@ validator.validate(function(err) {
 });
 ```
 
-## alpha
+#### alpha
 The field under validation must be entirely alphabetic characters.
 
-## alpha_num
+#### alpha_num
 The field under validation must be entirely alpha-numeric characters.
 
-## alpha_num_dash
+#### alpha_num_dash
 The field under validation may have alpha-numeric characters, as well as dashes and underscores.
 
-## array
-## before
-## between
-## boolean
-## confirmed
-## date
-## date_format
-## different
-## digits
-## digits_between
-## email
-## exists
-## image
-## in
-## integer
-## ip
-## json
-## max
-## mimes
-## min
-## not_in
-## numeric
-## regex
-## required
-## required_if
-## required_with
-## required_with_all
-## required_without
-## required_without_all
-## same
-## size
-## string
-## timezone
-## unique
-## url
+#### array
+#### before
+#### between
+#### boolean
+#### confirmed
+#### date
+#### date_format
+#### different
+#### digits
+#### digits_between
+#### email
+#### exists
+#### image
+#### in
+#### integer
+#### ip
+#### json
+#### max
+#### mimes
+#### min
+#### not_in
+#### numeric
+#### regex
+#### required
+#### required_if
+#### required_with
+#### required_with_all
+#### required_without
+#### required_without_all
+#### same
+#### size
+#### string
+#### timezone
+#### unique
+#### url
 
 
-# Advanced usage
+## Advanced usage
 
-## The factory function
+### The factory function
 
 The full factory function with all its (optional) arguments are as follows:
 ```
@@ -163,7 +163,7 @@ function(errors) {}
 `DB` is a class adhering to inspirationjs's "DB" contract.  [babylon-db](https://github.com/musejs/babylon-db) fits right in.
 Supplying this allows use of the "exists" and "unique" rules.
 
-## Message placeholders
+### Message placeholders
 
 Every message supplied (either in the factory's `config` object or in the `messages` object in `V4Validator.make(data, rules, messages)`)
 can include placeholders. Placeholders are identified by a colon (":") before it. The most commonly found placeholder in
@@ -173,7 +173,7 @@ Whenever an error message needs to be generated for a rule, it is first passed t
 These functions are keyed by the rule they run on. Additionally, there is a default replacer called before the rule-specific
 replacers are called.
 
-You may add or..ahem..replace...the default replacers with your own functions by either supplying them in the factory's `config` object,
+You may add or overwrite the default replacers with your own functions by either supplying them in the factory's `config` object,
 or if you already have a `V4Validator` class, you may call the `replacer` method:
 ```
 var V4Validator = require('../src/factory')();
@@ -198,7 +198,17 @@ validator.validate(function(err) {
 The above example will replace the ":attribute" placeholder with the string "field", e.g. "The XXX is required.".  The original `required` replacer
 replaced ":attribute" with the field name with spaces instead of non-alphanumeric characters, e.g. "The field 1 is required.".
 
-## Adding new rules
+To overwrite the default replacer, you must first get the default replacer's key, which is actually a Symbol object (to prevent key collisions).
+You may do so by first calling `V4Validator.defaultReplacerKey()`.
+```
+var default_replacer_key = V4Validator.defaultReplacerKey();
+V4Validator.replacer(default_replacer_key, function(field, constraint) {
+    // do your replacing
+});
+
+```
+
+### Adding new rules
 
 You may either add new rules or override existing rule implementations by supplying it in the factory's `config` object,
 or if you already have a `V4Validator` class, you may call the `rule` method:
@@ -224,5 +234,3 @@ validator.validate(function(err) {
 });
 
 ```
-
-## Adding new replacers
