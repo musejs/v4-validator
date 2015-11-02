@@ -758,6 +758,7 @@ module.exports = {
 
     },
     /**
+     * The field under validation must be present only if any of the other specified fields are present.
      *
      * @param data
      * @param field
@@ -864,9 +865,8 @@ module.exports = {
     /**
      * The field under validation must have a size matching the given value.
      *
-     * For string data, value corresponds to the number of characters.
-     * For numeric data, value corresponds to a given integer value.
-     * For files, size corresponds to the file size in kilobytes.
+     * For numeric data, value corresponds to a given number value.
+     * For all other values, corresponds to the value of a "length" parameter.
      *
      * @param data
      * @param field
@@ -911,7 +911,7 @@ module.exports = {
     },
 
     /**
-     * The field under validation must be a valid URL according to PHP's filter_var function.
+     * The field under validation must be a valid URL.
      *
      * @param data
      * @param field

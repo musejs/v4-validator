@@ -34,8 +34,7 @@ describe('required_with_all', function() {
             field_3: 'hola',
             field_4: 'hey',
             field_5: 'sup',
-            field_6: 'yo',
-            field_7: ''
+            field_6: 'yo'
         };
         var rules = {
             field_1: 'required_with_all:field_2',

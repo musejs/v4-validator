@@ -39,8 +39,6 @@ describe('after', function() {
         var rules = {
             field_1: 'after:'+now.toISOString()
         };
-        console.log(data);
-        console.log(rules);
 
         var validator = V4Validator.make(data, rules);
 

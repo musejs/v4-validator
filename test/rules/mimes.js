@@ -36,7 +36,8 @@ describe('mimes', function() {
             field_5: 'http://www.bestmotherofthegroomspeeches.com/wp-content/themes/thesis/rotator/sample-1.jpg',
             field_6: fixtures_dir+'sample-png-2.PNG',
             field_7: fixtures_dir+'sample-txt.txt',
-            field_8: fixtures_dir+'sample-html.html'
+            field_8: fixtures_dir+'sample-html.html',
+            field_9: fixtures_dir+'sample-html.html'
 
         };
         var rules = {
@@ -47,7 +48,8 @@ describe('mimes', function() {
             field_5: 'mimes:bmp,gif,jpg,png',
             field_6: 'mimes:bmp,gif,jpg,png',
             field_7: 'mimes:txt',
-            field_8: 'mimes:html'
+            field_8: 'mimes:html',
+            field_9: 'mimes:text/html'
         };
 
         var validator = V4Validator.make(data, rules);
