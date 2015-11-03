@@ -737,7 +737,7 @@ var data = {
 
 var rules = {
     meal_selection: ['required', 'in:vegetables,meat'],
-    meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
+    meat_selection: 'sometimes|required|in:beef,chicken,pork'
 };
 
 var validator = V4Validator.make(data, rules);

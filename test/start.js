@@ -98,7 +98,7 @@ describe('V4Validator', function() {
             };
 
             var rules = {
-                meal_selection: ['required', 'in:vegetables,meat'],
+                meal_selection: 'required|in:vegetables,meat',
                 meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
             };
 
