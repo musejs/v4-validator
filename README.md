@@ -634,50 +634,6 @@ function(errors) {}
 `DB` is a class adhering to inspirationjs's "DB" contract.  [babylon-db](https://github.com/musejs/babylon-db) fits right in.
 Supplying this allows use of the "exists" and "unique" rules.
 
-### Message placeholders
-
-Every message supplied (either in the factory's `config` object or in the `messages` object in `V4Validator.make(data, rules, messages)`)
-can include placeholders. Placeholders are identified by a colon (":") before it. The most commonly found placeholder in
-the default messages is ":attribute", which maps to the name of the field under validation.
-
-Whenever an error message needs to be generated for a rule, it is first passed through functions called "replacers".
-These functions are keyed by the rule they run on. Additionally, there is a default replacer called before the rule-specific
-replacers are called.
-
-You may add or overwrite the default replacers with your own functions by either supplying them in the factory's `config` object,
-or if you already have a `V4Validator` class, you may call the `replacer` method:
-```
-var V4Validator = require('../src/factory')();
-
-V4Validator.replacer('required', function(field, constraint) {
-
-    constraint.message = constraint.message.replace(new RegExp(':attribute'), 'XXX');
-});
-
-var data = {};
-
-var rules = {
-    field_1: 'required'
-};
-
-var validator = V4Validator.make(data, rules);
-
-validator.validate(function(err) {
-
-});
-```
-The above example will replace the ":attribute" placeholder with the string "field", e.g. "The XXX is required.".  The original `required` replacer
-replaced ":attribute" with the field name with spaces instead of non-alphanumeric characters, e.g. "The field 1 is required.".
-
-To overwrite the default replacer, you must first get the default replacer's key, which is actually a Symbol object (to prevent key collisions).
-You may do so by first calling `V4Validator.defaultReplacerKey()`.
-```
-var default_replacer_key = V4Validator.defaultReplacerKey();
-V4Validator.replacer(default_replacer_key, function(field, constraint) {
-    // do your replacing
-});
-
-```
 
 ### Adding new rules
 
@@ -789,4 +745,49 @@ validator.validate(function(err) {
      * causing the conditional rules for "type_of_meat" to kick in.
      */
 });
+```
+
+### Message placeholders
+
+Every message supplied (either in the factory's `config` object or in the `messages` object in `V4Validator.make(data, rules, messages)`)
+can include placeholders. Placeholders are identified by a colon (":") before it. The most commonly found placeholder in
+the default messages is ":attribute", which maps to the name of the field under validation.
+
+Whenever an error message needs to be generated for a rule, it is first passed through functions called "replacers".
+These functions are keyed by the rule they run on. Additionally, there is a default replacer called before the rule-specific
+replacers are called.
+
+You may add or overwrite the default replacers with your own functions by either supplying them in the factory's `config` object,
+or if you already have a `V4Validator` class, you may call the `replacer` method:
+```
+var V4Validator = require('../src/factory')();
+
+V4Validator.replacer('required', function(field, constraint) {
+
+    constraint.message = constraint.message.replace(new RegExp(':attribute'), 'XXX');
+});
+
+var data = {};
+
+var rules = {
+    field_1: 'required'
+};
+
+var validator = V4Validator.make(data, rules);
+
+validator.validate(function(err) {
+
+});
+```
+The above example will replace the ":attribute" placeholder with the string "field", e.g. "The XXX is required.".  The original `required` replacer
+replaced ":attribute" with the field name with spaces instead of non-alphanumeric characters, e.g. "The field 1 is required.".
+
+To overwrite the default replacer, you must first get the default replacer's key, which is actually a Symbol object (to prevent key collisions).
+You may do so by first calling `V4Validator.defaultReplacerKey()`.
+```
+var default_replacer_key = V4Validator.defaultReplacerKey();
+V4Validator.replacer(default_replacer_key, function(field, constraint) {
+    // do your replacing
+});
+
 ```
