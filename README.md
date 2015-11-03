@@ -719,25 +719,25 @@ var data = {
 
 var rules = {
     meal_selection: ['required', 'in:vegetables,meat'],
-    meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
+    type_of_meat: ['sometimes', 'required', 'in:beef,chicken,pork']
 };
 
 var validator = V4Validator.make(data, rules);
 
 validator.validate(function(err) {
-    // this will pass, because "meat_selection" is not present in the data.
+    // this will pass, because "type_of_meat" is not present in the data.
 });
 ```
 ##### Example 2:
 ```
 var data = {
     meal_selection: 'meat',
-    meat_selection: 'turkey'
+    type_of_meat: 'turkey'
 };
 
 var rules = {
     meal_selection: 'required|in:vegetables,meat',
-    meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
+    type_of_meat: ['sometimes', 'required', 'in:beef,chicken,pork']
 };
 
 var validator = V4Validator.make(data, rules);
@@ -745,7 +745,7 @@ var validator = V4Validator.make(data, rules);
 validator.validate(function(err) {
     /**
      * this will fail,
-     * because the "meat_selection" field was present in the data,
+     * because the "type_of_meat" field was present in the data,
      * so its conditional rules kicked in.
      */
 });
@@ -774,10 +774,10 @@ var rules = {
 var validator = V4Validator.make(data, rules);
 
 /**
- * This will require a "meat_selection" field in the data,
+ * This will require a "type_of_meat" field in the data,
  * if the "meal_selection" field equals "meat".
  */
-validator.sometimes('meat_selection', ['required', 'in:beef,chicken,pork'], function(data) {
+validator.sometimes('type_of_meat', ['required', 'in:beef,chicken,pork'], function(data) {
 
     return data.meal_selection == 'meat';
 });
@@ -786,7 +786,7 @@ validator.validate(function(err) {
     /**
      * this will fail,
      * because "meal_selection" was "meat",
-     * causing the conditional rules for "meat_selection" to kick in.
+     * causing the conditional rules for "type_of_meat" to kick in.
      */
 });
 ```

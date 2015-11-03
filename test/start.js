@@ -72,14 +72,14 @@ describe('V4Validator', function() {
 
             var rules = {
                 meal_selection: ['required', 'in:vegetables,meat'],
-                meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
+                type_of_meat: ['sometimes', 'required', 'in:beef,chicken,pork']
             };
 
             var validator = V4Validator.make(data, rules);
 
             validator.validate(function(err) {
 
-                // this will pass, because "meat_selection" is not present in the data.
+                // this will pass, because "type_of_meat" is not present in the data.
                 if (err) {
                     throw err;
                 }
@@ -94,12 +94,12 @@ describe('V4Validator', function() {
 
             var data = {
                 meal_selection: 'meat',
-                meat_selection: 'turkey'
+                type_of_meat: 'turkey'
             };
 
             var rules = {
                 meal_selection: 'required|in:vegetables,meat',
-                meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
+                type_of_meat: ['sometimes', 'required', 'in:beef,chicken,pork']
             };
 
             var validator = V4Validator.make(data, rules);
@@ -108,13 +108,13 @@ describe('V4Validator', function() {
 
                 /**
                  * this will fail,
-                 * because the "meat_selection" field was present in the data,
+                 * because the "type_of_meat" field was present in the data,
                  * so its conditional rules kicked in.
                  */
 
                 err.should.be.ok;
                 err.should.have.property('meta');
-                err.meta.should.have.property('meat_selection');
+                err.meta.should.have.property('type_of_meat');
 
                 done();
             });
@@ -136,10 +136,10 @@ describe('V4Validator', function() {
             var validator = V4Validator.make(data, rules);
 
             /**
-             * This will require a "meat_selection" field in the data,
+             * This will require a "type_of_meat" field in the data,
              * if the "meal_selection" field equals "meat".
              */
-            validator.sometimes('meat_selection', ['required', 'in:beef,chicken,pork'], function(data) {
+            validator.sometimes('type_of_meat', ['required', 'in:beef,chicken,pork'], function(data) {
 
                 return data.meal_selection == 'meat';
             });
@@ -149,7 +149,7 @@ describe('V4Validator', function() {
                 // this will fail.
                 err.should.be.ok;
                 err.should.have.property('meta');
-                err.meta.should.have.property('meat_selection');
+                err.meta.should.have.property('type_of_meat');
                 done();
             });
 
