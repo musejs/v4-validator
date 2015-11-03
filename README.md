@@ -751,7 +751,17 @@ validator.validate(function(err) {
 });
 ```
 
-For cases that require more complex conditions, you may use the `sometimes` method of the validator instance:
+For cases that require more complex conditions, you may use the `sometimes` method of the validator instance.
+
+It's signature is:
+```
+validator.sometimes(field, rules, condition);
+```
+- `field` is the name of the field to apply the rules.
+- `rules` are the rules to apply.
+- `condition` is a function that should return a boolean to indicate if to apply the rules or not.
+
+##### Example 1:
 ```
 var data = {
     meal_selection: 'meat'
