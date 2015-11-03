@@ -10,6 +10,8 @@ in other musejs components.
 
 `npm install musejs/v4-validator`
 
+Note: requires node.js 4.0 or higher.
+
 ## Usage
 `require('v4-validator')` yields a factory function, with the following arguments: `config`, `errorHandler`, and `DB`.
 All arguments are optional.
