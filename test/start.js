@@ -62,6 +62,99 @@ describe('V4Validator', function() {
 
         });
 
+        it('should conditionally pass rules via the "sometimes" rule', function(done) {
+
+            var V4Validator = require('../src/factory')();
+
+            var data = {
+                meal_selection: 'meat'
+            };
+
+            var rules = {
+                meal_selection: ['required', 'in:vegetables,meat'],
+                meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
+            };
+
+            var validator = V4Validator.make(data, rules);
+
+            validator.validate(function(err) {
+
+                // this will pass, because "meat_selection" is not present in the data.
+                if (err) {
+                    throw err;
+                }
+                done();
+            });
+
+        });
+
+        it('should conditionally fail rules via the "sometimes" rule', function(done) {
+
+            var V4Validator = require('../src/factory')();
+
+            var data = {
+                meal_selection: 'meat',
+                meat_selection: 'turkey'
+            };
+
+            var rules = {
+                meal_selection: ['required', 'in:vegetables,meat'],
+                meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
+            };
+
+            var validator = V4Validator.make(data, rules);
+
+            validator.validate(function(err) {
+
+                /**
+                 * this will fail,
+                 * because the "meat_selection" field was present in the data,
+                 * so its conditional rules kicked in.
+                 */
+
+                err.should.be.ok;
+                err.should.have.property('meta');
+                err.meta.should.have.property('meat_selection');
+
+                done();
+            });
+
+        });
+
+        it('should conditionally add rules via a condition closure', function(done) {
+
+            var V4Validator = require('../src/factory')();
+
+            var data = {
+                meal_selection: 'meat'
+            };
+
+            var rules = {
+                meal_selection: ['required', 'in:vegetables,meat']
+            };
+
+            var validator = V4Validator.make(data, rules);
+
+            /**
+             * This will require a "meat_selection" field in the data,
+             * if the "meal_selection" field equals "meat".
+             */
+            validator.sometimes('meat_selection', ['required', 'in:beef,chicken,pork'], function(data) {
+
+                return data.meal_selection == 'meat';
+            });
+
+            validator.validate(function(err) {
+
+                // this will fail.
+                err.should.be.ok;
+                err.should.have.property('meta');
+                err.meta.should.have.property('meat_selection');
+                done();
+            });
+
+
+        });
 
     });
 

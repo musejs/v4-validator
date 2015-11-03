@@ -1,9 +1,7 @@
 ## v4-validator
-Handy extensible validator.
+This package is part of the [musejs](https://github.com/musejs) suite of components.
 
-This package is part of the [musejs](https://github.com/musejs) family of components.
-
-This validator borrows heavily from Laravel's validator, in that it incorporates every rule present in that validator,
+This validator borrows heavily from Laravel's [validator](http://laravel.com/docs/5.1/validation), in that it incorporates every rule present in that validator,
 and implements similar functionality.  This is not, however, a direct port.  Besides the obvious difference that one is
 in PHP and the other is in node.js, v4-validator's implementation logic is its own, and adheres to the conventions found
 in other musejs components.
@@ -13,7 +11,7 @@ in other musejs components.
 `npm install musejs/v4-validator`
 
 ## Usage
-`require('v4-validator')` yields a factory function, with the following arguments: `config`, `errorHandler`, and 'DB'.
+`require('v4-validator')` yields a factory function, with the following arguments: `config`, `errorHandler`, and `DB`.
 All arguments are optional.
 
 Once the factory function is called, it will return a `V4Validator` class, which you may then use to create a new
@@ -22,7 +20,7 @@ or `V4Validator.make(data, rules, messages)`.
 
 - The `data` argument is a required plain javascript object; usually the input params from a request.
 - The `rules` argument is a required plain javascript object whose keys are the fields in `data` you wish to assign rules to, and the corresponding
-values are either an array of rules, or a string of rules separated by a pipe ("|"). If the rule requires arguments, add a colon(":") to the end of the rule name, followed by a comma-separated list of the arguments.
+values are either an array of rules, or a string of rules separated by a pipe (`|`). If the rule requires arguments, add a colon (`:`) to the end of the rule name, followed by a comma-separated list of the arguments.
 - `messages` is an optional plain javascript object whose keys are the fields in `data` you wish to assign a custom message to,
 and the corresponding values are a string.
 
@@ -703,7 +701,82 @@ var rules = {
 var validator = V4Validator.make(data, rules);
 
 validator.validate(function(err) {
-
+    // this will pass.
 });
 
+```
+
+### Conditional rules
+
+Conditional rules can be applied in one of two ways. The first way works for rules you wish to add only if a field
+is present in the data. You do this by adding the "sometimes" rule before any others.
+
+##### Example 1:
+```
+var data = {
+    meal_selection: 'meat'
+};
+
+var rules = {
+    meal_selection: ['required', 'in:vegetables,meat'],
+    meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
+};
+
+var validator = V4Validator.make(data, rules);
+
+validator.validate(function(err) {
+    // this will pass, because "meat_selection" is not present in the data.
+});
+```
+##### Example 2:
+```
+var data = {
+    meal_selection: 'meat',
+    meat_selection: 'turkey'
+};
+
+var rules = {
+    meal_selection: ['required', 'in:vegetables,meat'],
+    meat_selection: ['sometimes', 'required', 'in:beef,chicken,pork']
+};
+
+var validator = V4Validator.make(data, rules);
+
+validator.validate(function(err) {
+    /**
+     * this will fail,
+     * because the "meat_selection" field was present in the data,
+     * so its conditional rules kicked in.
+     */
+});
+```
+
+For cases that require more complex conditions, you may use the `sometimes` method of the validator instance:
+```
+var data = {
+    meal_selection: 'meat'
+};
+
+var rules = {
+    meal_selection: ['required', 'in:vegetables,meat']
+};
+
+var validator = V4Validator.make(data, rules);
+
+/**
+ * This will require a "meat_selection" field in the data,
+ * if the "meal_selection" field equals "meat".
+ */
+validator.sometimes('meat_selection', ['required', 'in:beef,chicken,pork'], function(data) {
+
+    return data.meal_selection == 'meat';
+});
+
+validator.validate(function(err) {
+    /**
+     * this will fail,
+     * because "meal_selection" was "meat",
+     * causing the conditional rules for "meat_selection" to kick in.
+     */
+});
 ```

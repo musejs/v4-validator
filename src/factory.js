@@ -142,9 +142,9 @@ module.exports = function factory(config, errorHandler, DB) {
          *
          * @param field
          * @param rules
-         * @param closure
+         * @param condition
          */
-        sometimes(field, rules, closure) {
+        sometimes(field, rules, condition) {
 
             if (_.isString(field)) {
                 field = [field];
@@ -156,7 +156,7 @@ module.exports = function factory(config, errorHandler, DB) {
 
                 this._sometimes[f] = {
                     rules: rules,
-                    condition: closure
+                    condition: condition
                 };
             }
         }
