@@ -1,6 +1,6 @@
 {
   "name": "v4-validator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Handy extensible validator for inspirationjs.",
   "main": "./src/factory.js",
   "scripts": {
