@@ -8,7 +8,7 @@ in other musejs components.
 
 ## Installation
 
-`npm install musejs/v4-validator`
+`npm install v4-validator`
 
 Note: requires node.js 4.0 or higher.
 
