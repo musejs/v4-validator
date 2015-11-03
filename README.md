@@ -759,7 +759,7 @@ validator.sometimes(field, rules, condition);
 ```
 - `field` is the name of the field to apply the rules.
 - `rules` are the rules to apply.
-- `condition` is a function that should return a boolean to indicate if to apply the rules or not.
+- `condition` is a function that should return a boolean to indicate if to apply the `rules` or not.
 
 ##### Example 1:
 ```
