@@ -13,7 +13,7 @@ in other musejs components.
 Note: requires node.js 4.0 or higher.
 
 ## Usage
-`require('v4-validator')` yields a factory function, with the following arguments: `config`, `errorHandler`, and `DB`.
+`require('v4-validator')` yields a factory function, with the following arguments: `config` and `DB`.
 All arguments are optional.
 
 Once the factory function is called, it will return a `V4Validator` class, which you may then use to create a new
@@ -608,7 +608,7 @@ The field under validation must be a valid URL.
 
 The full factory function with all its (optional) arguments are as follows:
 ```
-var V4Validator = require('v4-validator')(config, errorHandler, DB);
+var V4Validator = require('v4-validator')(config, DB);
 ```
 
 `config` is an object that can be used to override the defaults used. Any and all properties supplied are optional.
@@ -623,7 +623,8 @@ Under the hood, _.defaultsDeep is used. Here's the full possible structure:
     },
     replacers: {
         [rule]: function(field, constraint) {}
-    }
+    },
+    errorHandler: function(errors) {}
 }
 ```
 
@@ -790,6 +791,36 @@ You may do so by first calling `V4Validator.defaultReplacerKey()`.
 var default_replacer_key = V4Validator.defaultReplacerKey();
 V4Validator.replacer(default_replacer_key, function(field, constraint) {
     // do your replacing
+});
+
+```
+
+### Custom error handling
+
+The error handler is a function that takes in the resulting validation errors, and returns *something*.
+That *something* will be returned when `validator.validate` is called.
+
+You may replace the default error handler function by supplying it in the factory's `config` object,
+or if you already have a `V4Validator` class, you may call the `errorHandler` method:
+```
+var V4Validator = require('v4-validator')();
+
+V4Validator.errorHandler(function(errors) {
+
+    return new CustomError(errors);
+});
+
+var data = {};
+
+var rules = {
+    field_1: 'required'
+};
+
+var validator = V4Validator.make(data, rules);
+
+validator.validate(function(err) {
+    
+    //err is the instance of "CustomError" created by the error handler.
 });
 
 ```

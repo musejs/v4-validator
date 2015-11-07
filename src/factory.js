@@ -3,13 +3,13 @@ var _ = require('lodash');
 var async = require('async');
 var default_replacer = Symbol('default_replacer');
 
-module.exports = function factory(config, errorHandler, DB) {
+module.exports = function factory(config, DB) {
 
 
     var messages = _.clone(require('./messages'), true);
     var rules = _.clone(require('./rules'), true);
     var replacers = _.clone(require('./replacers'), true);
-
+    var errorHandler = require('./errorHandler');
     /**
      * Setup defaults.
      */
@@ -20,7 +20,8 @@ module.exports = function factory(config, errorHandler, DB) {
     _.defaultsDeep(config, {
         messages: messages,
         rules: rules,
-        replacers: replacers
+        replacers: replacers,
+        errorHandler: errorHandler
     });
 
     config.replacers[default_replacer] = function(field, constraint) {
@@ -30,14 +31,6 @@ module.exports = function factory(config, errorHandler, DB) {
         constraint.message = constraint.message
             .replace(attribute, _.snakeCase(field).split('_').join(' '));
     };
-
-    /**
-     * This function creates an error object.
-     */
-    if (!errorHandler) {
-
-        errorHandler = require('./errorHandler');
-    }
 
     return class V4Validator {
 
@@ -130,7 +123,7 @@ module.exports = function factory(config, errorHandler, DB) {
 
                 if (!err && errors) {
 
-                    err = errorHandler(errors);
+                    err = config.errorHandler(errors);
                 }
                 callback(err, data);
 
@@ -312,7 +305,18 @@ module.exports = function factory(config, errorHandler, DB) {
          * @returns {Symbol}
          */
         static defaultReplacerKey() {
+
             return default_replacer;
+        }
+
+        /**
+         * Sets a new error handler.
+         *
+         * @param closure
+         */
+        static errorHandler(closure) {
+
+            config.errorHandler = closure;
         }
 
     }
