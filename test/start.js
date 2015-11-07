@@ -281,4 +281,110 @@ describe('V4Validator', function() {
         });
     });
 
+    describe('errorHandler', function() {
+
+        it('should replace the default error handler.', function(done) {
+
+            var CustomError = class CustomError {
+
+                constructor(errors) {
+                    this.errors = errors;
+                }
+            };
+
+            var V4Validator = require('../src/factory')();
+
+            V4Validator.errorHandler(function(errors) {
+
+                return new CustomError(errors);
+            });
+
+            var data = {};
+
+            var rules = {
+                field_1: 'required'
+            };
+
+            var validator = V4Validator.make(data, rules);
+
+            validator.validate(function(err) {
+
+                err.should.be.ok;
+                err.should.be.instanceOf(CustomError);
+                done();
+            });
+
+        });
+    });
+
+    describe('factory', function() {
+
+        it('should create a class with custom messages, rules, replacers, and errorHandler', function(done) {
+
+            var CustomError = class CustomError {
+
+                constructor(errors) {
+                    this.errors = errors;
+                }
+            };
+
+            var new_string_message = 'This is not a string bro.';
+
+            var config = {
+                messages: {
+                    required: 'This is required bro.',
+                    equals_something: 'This does not equal "something"'
+                },
+                rules: {
+                    equals_something: function(data, field, value, parameters, callback) {
+
+                        callback(null, value === 'something');
+                    }
+                },
+                replacers: {
+                    string: function(field, constraint) {
+
+                        constraint.message = new_string_message;
+                    }
+                },
+                errorHandler: function(errors) {
+
+                    return new CustomError(errors);
+                }
+            };
+
+            var V4Validator = require('../src/factory')(config);
+
+            var data = {
+                field_1: undefined,
+                field_2: 'ksldjflk',
+                field_3: 5
+            };
+
+            var rules = {
+                field_1: 'required',
+                field_2: 'required|equals_something',
+                field_3: 'required|string'
+            };
+
+            var validator = V4Validator.make(data, rules);
+
+            validator.validate(function(err) {
+
+                err.should.be.ok;
+                err.should.be.instanceOf(CustomError);
+                err.errors.should.have.property('field_1');
+                err.errors.field_1[0].message.should.equal(config.messages.required);
+                err.errors.should.have.property('field_2');
+                err.errors.field_2[0].message.should.equal(config.messages.equals_something);
+                err.errors.should.have.property('field_3');
+                err.errors.field_3[0].message.should.equal(new_string_message);
+                done();
+            });
+
+        });
+
+    });
+
+
 });
