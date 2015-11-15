@@ -1,4 +1,5 @@
 ## v4-validator
+
 This package is part of the [musejs](https://github.com/musejs) suite of components.
 
 This validator borrows heavily from Laravel's [validator](http://laravel.com/docs/5.1/validation), in that it incorporates every rule present in that validator,
@@ -13,21 +14,8 @@ in other musejs components.
 Note: requires node.js 4.0 or higher.
 
 ## Usage
-`require('v4-validator')` yields a factory function, with the following arguments: `config` and `DB`.
-All arguments are optional.
 
-Once the factory function is called, it will return a `V4Validator` class, which you may then use to create a new
-validator instance whenever you wish to validate some data.  This can be done by calling either `new V4Validator(data, rules, messages)`
-or `V4Validator.make(data, rules, messages)`.
-
-- The `data` argument is a required plain javascript object; usually the input params from a request.
-- The `rules` argument is a required plain javascript object whose keys are the fields in `data` you wish to assign rules to, and the corresponding
-values are either an array of rules, or a string of rules separated by a pipe (`|`). If the rule requires arguments, add a colon (`:`) to the end of the rule name, followed by a comma-separated list of the arguments.
-- `messages` is an optional plain javascript object whose keys are the fields in `data` you wish to assign a custom message to,
-and the corresponding values are a string.
-
-
-### Basic Example
+### Quickstart
 ```
 var V4Validator = require('v4-validator')();
 
@@ -54,12 +42,22 @@ validator.validate(function(err) {
     // handle err
 
 });
-
 ```
-A few things to note about this example:
-- Only the `data` and `rules` are required. There are already default messages for every rule.
-- Rules in this example were supplied interchangeably as either a string of combined rules, or as an array.
-- The `validate` function is asynchronous.
+
+### Details
+
+`require('v4-validator')` yields a factory function, with the following arguments: `config` and `DB`.
+All arguments are optional.
+
+Once the factory function is called, it will return a `V4Validator` class, which you may then use to create a new
+validator instance whenever you wish to validate some data.  This can be done by calling either `new V4Validator(data, rules, messages)`
+or `V4Validator.make(data, rules, messages)`.
+
+- The `data` argument is a required plain javascript object; usually the input params from a request.
+- The `rules` argument is a required plain javascript object whose keys are the fields in `data` you wish to assign rules to, and the corresponding
+values are either an array of rules, or a string of rules separated by a pipe (`|`). If the rule requires arguments, add a colon (`:`) to the end of the rule name, followed by a comma-separated list of the arguments.
+- `messages` is an optional plain javascript object whose keys are the fields in `data` you wish to assign a custom message to,
+and the corresponding values are a string.
 
 ### Rules
 
@@ -602,7 +600,46 @@ The field under validation must be a valid timezone identifier according to mome
 #### url
 The field under validation must be a valid URL.
 
-## Advanced usage
+## API
+
+#### `validator.validate(callback)` 
+Validates the given data.
+```
+validator.validate(function(err) {
+});
+```
+If validation fails, `err` will be whatever is returned by the `errorHandler`. The default `errorHandler` returns an instance of `ValidationError`.
+
+More details [here](#custom-error-handling).
+
+#### `validator.sometimes(field, rules, condition)`
+
+Conditionally adds rules.
+
+More details [here](#conditional-rules).
+
+#### `validator.failed()`
+Returns a plain javascript object, whose keys are the failed fields, and the values are an array of the rules that failed.
+
+#### `V4Validator.make(data, rules, messages)`
+Creates a new validator instance.
+
+#### `V4Validator.rule(rule, closure)`
+Adds a new rule, or replaces an existing rule.
+
+More details [here](#adding-new-rules).
+
+#### `V4Validator.replacer(rule, closure)`
+Adds a new message replacer for a rule, or replaces an existing replacer.
+
+More details [here](#message-placeholders)
+
+### `V4Validator.errorHandler(closure)`
+Sets a new errorHandler function. This function should return the `err` object that will be created when validation fails.
+
+More details [here](#custom-error-handling)
+
+## Advanced Usage
 
 ### The factory function
 
@@ -636,7 +673,6 @@ function(errors) {}
 
 `DB` is a class adhering to inspirationjs's "DB" contract.  [babylon-db](https://github.com/musejs/babylon-db) fits right in.
 Supplying this allows use of the "exists" and "unique" rules.
-
 
 ### Adding new rules
 
