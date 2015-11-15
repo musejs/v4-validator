@@ -646,7 +646,7 @@ var V4Validator = require('v4-validator')(config, DB);
 ```
 
 `config` is an object that can be used to override the defaults used. Any and all properties supplied are optional.
-Under the hood, _.defaultsDeep is used. Here's the full possible structure:
+Under the hood, [_.defaultsDeep](https://lodash.com/docs#defaultsDeep) is used. Here's the full possible structure:
 ```
 {
     messages: {
