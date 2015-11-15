@@ -631,7 +631,7 @@ Adds a new message replacer for a rule, or replaces an existing replacer.
 
 More details [here](#message-placeholders)
 
-### `V4Validator.errorHandler(closure)`
+#### `V4Validator.errorHandler(closure)`
 Sets a new errorHandler function. This function should return the `err` object that will be created when validation fails.
 
 More details [here](#custom-error-handling)
