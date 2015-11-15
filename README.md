@@ -604,10 +604,7 @@ The field under validation must be a valid URL.
 
 #### `validator.validate(callback)` 
 Validates the given data.
-```
-validator.validate(function(err) {
-});
-```
+
 If validation fails, `err` will be whatever is returned by the `errorHandler`. The default `errorHandler` returns an instance of `ValidationError`.
 
 More details [here](#custom-error-handling).
