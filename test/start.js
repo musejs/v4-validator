@@ -11,6 +11,51 @@ describe('V4Validator', function() {
             var validator = V4Validator.make();
         });
 
+        it('should validate rules', function (done) {
+
+            var V4Validator = require('../src/factory')();
+
+            var data = {
+                field_2: '2',
+                field_3: 3,
+                field_4: {
+                    field_5: 'hello'
+                },
+                field_7: [
+                    'shaun'
+                ]
+            };
+
+            var rules = {
+                field_1: 'required',
+                field_2: 'required|string',
+                field_3: 'string',
+                ['field_4.field_5']: ['required', 'string', 'size:5', 'in:hello'],
+                ['field_4.field_6']: ['required'],
+                ['field_7[0]']: 'required|in:shaun'
+            };
+
+
+            var validator = V4Validator.make(data, rules);
+
+            validator.validate(function(err) {
+
+                err.should.be.ok;
+                err.should.have.property('meta');
+                err.meta.should.have.property('field_1');
+                err.meta.should.not.have.property('field_2');
+                err.meta.should.have.property('field_3');
+                err.meta.should.not.have.property('field_4.field_5');
+                err.meta.should.have.property('field_4.field_6');
+                err.meta.should.not.have.property('field_7[0]');
+
+                done();
+
+            });
+
+
+        });
+
         it('should create a new instance of V4Validator with custom messages', function (done) {
 
             var V4Validator = require('../src/factory')();

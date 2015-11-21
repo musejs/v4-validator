@@ -192,9 +192,11 @@ module.exports = function factory(config, DB) {
 
                     rule = _.trim(rule);
 
+                    var value = _.get(this._data, field);
+
                     if (rule == 'sometimes') {
 
-                        if (this._data[field] === undefined) {
+                        if (value === undefined) {
                             break;
                         }
 
@@ -207,11 +209,6 @@ module.exports = function factory(config, DB) {
                             args = args.split(',');
                         }
                         args = args || [];
-
-                        var value = undefined;
-                        if (this._data[field] !== undefined) {
-                            value = this._data[field];
-                        }
 
                         var message = undefined;
                         if (this._messages[field+'.'+rule]) {
