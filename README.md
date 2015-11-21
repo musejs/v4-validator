@@ -2,10 +2,8 @@
 
 This package is part of the [musejs](https://github.com/musejs) suite of components.
 
-This validator borrows heavily from Laravel's [validator](http://laravel.com/docs/5.1/validation), in that it incorporates every rule present in that validator,
-and implements similar functionality.  This is not, however, a direct port.  Besides the obvious difference that one is
-in PHP and the other is in node.js, v4-validator's implementation logic is its own, and adheres to the conventions found
-in other musejs components.
+This validator was inspired heavily by Laravel's [validator](http://laravel.com/docs/5.1/validation), in that it incorporates every rule present in that validator,
+and implements similar functionality.
 
 ## Installation
 
