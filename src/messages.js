@@ -43,6 +43,7 @@ module.exports = {
     },
     "not_in"               : "The selected :attribute is invalid.",
     "numeric"              : "The :attribute must be a number.",
+    "object"                : "The :attribute must be an object.",
     "regex"                : "The :attribute format is invalid.",
     "required"             : "The :attribute field is required.",
     "required_if"          : "The :attribute field is required when :other is :value.",

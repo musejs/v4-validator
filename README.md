@@ -26,13 +26,20 @@ var data = {
     preferred_greeting: 'hello',
     secondary_greeting: 'hola',
     password: 'something',
-    password_confirmation: 'something'
+    password_confirmation: 'something',
+    superheroes: ['batman', 'superman'],
+    preferences: {
+        color: 'black'
+    }
 };
 
 var rules = {
     preferred_greeting: 'required|string',
     secondary_greeting: ['required', 'in:hello,hola,aloha'],
     password: 'required|min:6|confirmed',
+    superheroes: 'array|min:1',
+    ['superheroes[0]']: 'required',
+    ['preferences.color']: 'in:blue,black,pink,purple' 
 };
 
 var validator = V4Validator.make(data, rules);
@@ -58,6 +65,8 @@ or `V4Validator.make(data, rules, messages)`.
 values are either an array of rules, or a string of rules separated by a pipe (`|`). If the rule requires arguments, add a colon (`:`) to the end of the rule name, followed by a comma-separated list of the arguments.
 - `messages` is an optional plain javascript object whose keys are the fields in `data` you wish to assign a custom message to,
 and the corresponding values are a string.
+
+Nested fields in `data` can be referenced with path notation, as shown [here](https://lodash.com/docs#get).
 
 ### Rules
 
@@ -397,6 +406,9 @@ validator.validate(function(err) {
 #### numeric
 The field under validation must be numeric.
 
+#### object
+The field under validation must be a plain object.
+
 #### regex:pattern[,...flags]
 The field under validation must match the given regular expression `pattern`, with optional `flags`.
 ```
@@ -610,7 +622,6 @@ If validation fails, `err` will be whatever is returned by the `errorHandler`. T
 More details [here](#custom-error-handling).
 
 #### `validator.sometimes(field, rules, condition)`
-
 Conditionally adds rules.
 
 More details [here](#conditional-rules).

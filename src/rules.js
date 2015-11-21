@@ -672,6 +672,19 @@ module.exports = {
         callback(null, isNumeric(value));
     },
     /**
+     * The field under validation must be an object.
+     *
+     * @param data
+     * @param field
+     * @param value
+     * @param parameters
+     * @param callback
+     */
+    object: function(data, field, value, parameters, callback) {
+
+        callback(null, _.isPlainObject(value));
+    },
+    /**
      * The field under validation must match the given regular expression.
      *
      * @param data
