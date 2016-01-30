@@ -3,7 +3,7 @@ var _ = require('lodash');
 var async = require('async');
 var default_replacer = Symbol('default_replacer');
 
-module.exports = function factory(config, DB) {
+module.exports = function factory(config) {
 
 
     var messages = _.clone(require('./messages'), true);
@@ -21,7 +21,8 @@ module.exports = function factory(config, DB) {
         messages: messages,
         rules: rules,
         replacers: replacers,
-        errorHandler: errorHandler
+        errorHandler: errorHandler,
+        DB: null
     });
 
     config.replacers[default_replacer] = function(field, constraint) {

@@ -61,8 +61,7 @@ validator.validate(function(err) {
 
 ### Details
 
-`require('v4-validator')` yields a factory function, with the following arguments: `config` and `DB`.
-All arguments are optional.
+`require('v4-validator')` yields a factory function, with the optional `config` argument.
 
 Once the factory function is called, it will return a `V4Validator` class, which you may then use to create a new
 validator instance whenever you wish to validate some data.  This can be done by calling either `new V4Validator(data, rules, messages)`
@@ -786,7 +785,7 @@ More details [here](#custom-error-handling)
 
 The full factory function with all its (optional) arguments are as follows:
 ```
-var V4Validator = require('v4-validator')(config, DB);
+var V4Validator = require('v4-validator')(config);
 ```
 
 `config` is an object that can be used to override the defaults used. Any and all properties supplied are optional.
@@ -811,9 +810,6 @@ function will be passed as the error in a failed validation. The signature is as
 ```
 function(errors) {}
 ```
-
-`DB` is a class adhering to inspirationjs's "DB" contract.  [babylon-db](https://github.com/musejs/babylon-db) fits right in.
-Supplying this allows use of the "exists" and "unique" rules.
 
 ### Adding new rules
 
