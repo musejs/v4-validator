@@ -179,7 +179,7 @@ module.exports = function factory(config, DB) {
 
                 schema[field] = [];
 
-                var field_rules = this._rules[field];
+                var field_rules = _.get(this._rules, field);
                 var value = _.get(this._data, field);
 
                 if (_.isString(field_rules)) {
@@ -187,11 +187,32 @@ module.exports = function factory(config, DB) {
                     field_rules = field_rules.split('|');
                 }
 
+                if (!_.isArray(field_rules)) {
+                    field_rules = [field_rules];
+                }
+
                 for(var u = 0, len = field_rules.length; u < len; u++) {
 
-                    var rule = field_rules[u];
+                    var field_rule = field_rules[u];
+                    var rule = undefined;
+                    var args = [];
 
-                    rule = _.trim(rule);
+                    if (_.isString(field_rule)) {
+
+                        args = field_rule.split(':');
+                        rule = _.trim(args.shift());
+                        args = _.trim(args.join(':'));
+
+                    } else if (_.isPlainObject(field_rule)) {
+                        rule = field_rule.rule;
+                        args = field_rule.args || [];
+                    }
+
+                    if (_.isString(args)) {
+                        if (args.length) {
+                            args = _.map(args.split(','), _.trim);
+                        }
+                    }
 
                     if (rule == 'sometimes') {
 
@@ -200,14 +221,6 @@ module.exports = function factory(config, DB) {
                         }
 
                     } else {
-
-                        var args = rule.split(':');
-                        rule = _.trim(args.shift());
-                        args = _.trim(args.join(':'));
-                        if (args.length) {
-                            args = args.split(',');
-                        }
-                        args = args || [];
 
                         var message = undefined;
                         if (this._messages[field+'.'+rule]) {
@@ -239,7 +252,7 @@ module.exports = function factory(config, DB) {
                         schema[field].push({
                             rule: rule,
                             value: value,
-                            args: args,
+                            args: args || [],
                             message: message
                         });
 
