@@ -180,6 +180,7 @@ module.exports = function factory(config, DB) {
                 schema[field] = [];
 
                 var field_rules = this._rules[field];
+                var value = _.get(this._data, field);
 
                 if (_.isString(field_rules)) {
 
@@ -191,8 +192,6 @@ module.exports = function factory(config, DB) {
                     var rule = field_rules[u];
 
                     rule = _.trim(rule);
-
-                    var value = _.get(this._data, field);
 
                     if (rule == 'sometimes') {
 
