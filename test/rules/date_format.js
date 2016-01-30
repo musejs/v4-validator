@@ -46,13 +46,16 @@ describe('date_format', function() {
             field_13: '5:45'
         };
         var rules = {
-            field_1: 'date_format:MM-DD-YYYY',
+            field_1: 'date_format:MM-DD-YYYY,true',
             field_2: 'date_format:MM-DD-YY',
             field_3: 'date_format:MM-DD-YYYY',
             field_4: 'date_format:M-D-YYYY',
             field_5: 'date_format:MMM D YYYY',
             field_6: 'date_format:MMM Do YYYY',
-            field_7: 'date_format:MMMM Do, YYYY',
+            field_7: {
+                rule: 'date_format',
+                args: ['MMMM Do, YYYY']
+            },
             field_8: 'date_format:X',
             field_9: 'date_format:ddd',
             field_10: 'date_format:dddd',
@@ -70,6 +73,7 @@ describe('date_format', function() {
 
                 throw err;
             }
+            data.field_1.should.not.be.instanceOf(String);
             done();
         });
 

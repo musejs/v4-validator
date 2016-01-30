@@ -33,11 +33,15 @@ describe('before', function() {
 
         var now = moment();
 
+        var second_day = now.clone().subtract(2, 'days');
+
         var data = {
-            field_1: now.clone().subtract(1, 'days').toISOString()
+            field_1: now.clone().subtract(1, 'days').toISOString(),
+            field_2: second_day.toISOString()
         };
         var rules = {
-            field_1: 'before:'+now.toISOString()
+            field_1: 'before:'+now.toISOString(),
+            field_2: 'before:'+now.toISOString()+',true'
         };
 
         var validator = V4Validator.make(data, rules);
@@ -48,6 +52,9 @@ describe('before', function() {
 
                 throw err;
             }
+
+            data.field_2.toISOString().should.equal(second_day.toISOString());
+
             done();
         });
 

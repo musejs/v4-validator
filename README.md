@@ -28,7 +28,9 @@ var data = {
     superheroes: ['batman', 'superman'],
     preferences: {
         color: 'black'
-    }
+    },
+    best_friend: 'Jenn',
+    underwear: 'boxers'
 };
 
 var rules = {
@@ -37,7 +39,15 @@ var rules = {
     password: 'required|min:6|confirmed',
     superheroes: 'array|min:1',
     ['superheroes[0]']: 'required',
-    ['preferences.color']: 'in:blue,black,pink,purple' 
+    ['preferences.color']: 'in:blue,black,pink,purple',
+    best_friend: {
+        rule: 'in',
+        args: 'Jenn,Jill,Alcibiades'
+    },
+    underwear: {
+        rule: 'in',
+        args: ['boxers', 'briefs']
+    }
 };
 
 var validator = V4Validator.make(data, rules);
@@ -60,11 +70,16 @@ or `V4Validator.make(data, rules, messages)`.
 
 - The `data` argument is a required plain javascript object; usually the input params from a request.
 - The `rules` argument is a required plain javascript object whose keys are the fields in `data` you wish to assign rules to, and the corresponding
-values are either an array of rules, or a string of rules separated by a pipe (`|`). If the rule requires arguments, add a colon (`:`) to the end of the rule name, followed by a comma-separated list of the arguments.
+values are either an array of rules, or a string of rules separated by a pipe (`|`). If the rule requires arguments, add a colon (`:`) to the end of the rule name, 
+followed by a comma-separated list of the arguments.
+- Alternatively, each rule can be defined as a plain javascript object with the keys `rule` and `args`.
+    - This becomes useful when an argument contains a comma and thus must be specified as an array. See the `date_format` example.
 - `messages` is an optional plain javascript object whose keys are the fields in `data` you wish to assign a custom message to,
 and the corresponding values are a string.
 
 Nested fields in `data` can be referenced with path notation, as shown [here](https://lodash.com/docs#get).
+
+
 
 ### Rules
 
@@ -75,18 +90,22 @@ This is useful for validating "Terms of Service" acceptance.
 #### active_url
 The field under validation must be a valid, active URL (determined by sending a HEAD request).
 
-#### after:date
+#### after:date[, should_transform]
 The field under validation must be a value after a given `date`.
 The dates will be passed into moment.js, and must therefore be [ISO-8601](http://momentjs.com/docs/##supported-iso-8601-strings) formatted.
+If `should_transform` is set to "true", the field under validation in `data` will be transformed to a moment.js object.
 ```
 var data = {
-    field_1: '2015-11-03T01:27:33.153Z'
+    field_1: '2015-11-03T01:27:33.153Z',
+    field_2: '2015-11-05T01:27:33.153Z'
 };
 var rules = {
-    field_1: 'after:2015-11-02'
+    field_1: 'after:2015-11-02',
+    field_2: 'after:2015-11-02,true',
+
 }
 validator.validate(function(err) {
-    // this will pass.
+    // this will pass, and data.field_2 will become a moment.js object.
 });
 ```
 
@@ -102,18 +121,21 @@ The field under validation may have alpha-numeric characters, as well as dashes 
 #### array
 The field under validation must be an array.
 
-#### before:date
+#### before:date[, should_transform]
 The field under validation must be a value before a given `date`.
 The dates will be passed into moment.js, and must therefore be [ISO-8601](http://momentjs.com/docs/##supported-iso-8601-strings) formatted.
+If `should_transform` is set to "true", the field under validation in `data` will be transformed to a moment.js object.
 ```
 var data = {
-    field_1: '2015-11-03T01:27:33.153Z'
+    field_1: '2015-11-03T01:27:33.153Z',
+    field_2: '2015-11-01T01:27:33.153Z'
 };
 var rules = {
-    field_1: 'before:2015-11-04'
+    field_1: 'before:2015-11-04',
+    field_2: 'before:2015-11-04,true'    
 }
 validator.validate(function(err) {
-    // this will pass.
+    // this will pass, and data.field_2 will become a moment.js object.
 });
 ```
 #### between:min,max
@@ -138,22 +160,82 @@ validator.validate(function(err) {
 });
 ```
 
-#### boolean
-The field under validation must be able to be cast as a boolean. Accepted input are true, false, "true", "false", 1, 0, "1", and "0"
+#### boolean[, should_transform]
+The field under validation must be able to be cast as a boolean. Accepted input are true, false, "true", "false", 1, 0, "1", and "0".
+If `should_transform` is set to "true", the field under validation in `data` will be transformed to a strict boolean value (true or false).
+```
+var data = {
+    field_1: true,
+    field_2: false,
+    field_3: 1,
+    field_4: 0,
+    field_5: '1',
+    field_6: '0',
+    field_7: 'true',
+    field_8: 'false',
+    field_9: '1',
+    field_10: '0'
+};
+var rules = {
+    field_1: 'boolean',
+    field_2: 'boolean',
+    field_3: 'boolean',
+    field_4: 'boolean',
+    field_5: 'boolean',
+    field_6: 'boolean',
+    field_7: 'boolean',
+    field_8: 'boolean',
+    field_9: 'boolean: true',
+    field_10: 'boolean: true'
+};
+
+var validator = V4Validator.make(data, rules);
+
+validator.validate(function(err) {
+    // this will pass, and data.field_9 will become a boolean (true), and data.field_10 will become a boolean (false).
+});
+```
 
 #### confirmed
 The field under validation must have a matching field of foo_confirmation.
 For example, if the field under validation is password, a matching password_confirmation field must be present in the input.
 
-#### date
+#### date[, should_transform]
 The field under validation must be a valid date according to moment.js, and must therefore be [ISO-8601](http://momentjs.com/docs/##supported-iso-8601-strings) formatted.
+If `should_transform` is set to "true", the field under validation in `data` will be transformed to a moment.js object.
+```
+var now = moment();
 
-#### date_format:format
+var data = {
+    field_1: now.toISOString(),
+    field_2: now.format(),
+    field_3: '2015-10-31',
+    field_4: 12334
+};
+var rules = {
+    field_1: 'date:true',
+    field_2: 'date',
+    field_3: 'date',
+    field_4: 'date'
+};
+
+var validator = V4Validator.make(data, rules);
+
+validator.validate(function(err) {
+    // this will pass, and data.field_1 will become a moment.js object.
+});
+```
+
+#### date_format:format[, should_transform]
 The field under validation must match the given `format`.
 The format will be evaluated using moment.js. You should use either date or date_format when validating a field, not both.
 This rule gives greater flexibility, since the date rule requires ISO-8601 formatting.
 
 Further formatting details found [here](http://momentjs.com/docs/#/parsing/string-format/).
+
+If `should_transform` is set to "true", the field under validation in `data` will be transformed to a moment.js object.
+
+Note: date formats that contain a comma should use the longer form of rule definition.  See `field_7` in the example below.
 ```
 var now = moment();
 
@@ -173,13 +255,16 @@ var data = {
     field_13: '5:45'
 };
 var rules = {
-    field_1: 'date_format:MM-DD-YYYY',
+    field_1: 'date_format:MM-DD-YYYY,true',
     field_2: 'date_format:MM-DD-YY',
     field_3: 'date_format:MM-DD-YYYY',
     field_4: 'date_format:M-D-YYYY',
     field_5: 'date_format:MMM D YYYY',
     field_6: 'date_format:MMM Do YYYY',
-    field_7: 'date_format:MMMM Do, YYYY',
+    field_7: {
+        rule: 'date_format',
+        args: ['MMMM Do, YYYY']
+    },
     field_8: 'date_format:X',
     field_9: 'date_format:ddd',
     field_10: 'date_format:dddd',
@@ -192,7 +277,7 @@ var rules = {
 var validator = V4Validator.make(data, rules);
 
 validator.validate(function(err) {
-    // this will pass.
+    // this will pass, and data.field_1 will become a moment.js object.
 });
 ```
 
@@ -290,14 +375,64 @@ validator.validate(function(err) {
 });
 ```
 
-#### integer
+#### integer[, should_transform]
 The field under validation must be an integer.
+If `should_transform` is set to "true", the field under validation in `data` will be transformed to a Number.
+```
+var data = {
+    field_1: '1',
+    field_2: 1,
+    field_3: '2'
+};
+var rules = {
+    field_1: 'integer',
+    field_2: 'integer',
+    field_3: 'integer:true'
+};
+
+var validator = V4Validator.make(data, rules);
+
+validator.validate(function(err) {
+    // this will pass, and data.field_3 will become a Number.
+});
+```
 
 #### ip
 The field under validation must be an IP address.
 
-#### json
+#### json[, should_transform]
 The field under validation must a valid JSON string.
+If `should_transform` is set to "true", the field under validation in `data` will be transformed to its JSON-parsed equivalent.
+```
+var data = {
+    field_1: JSON.stringify('hello'),
+    field_2: JSON.stringify({greeting: 'hello'}),
+    field_3: JSON.stringify(true),
+    field_4: JSON.stringify(false),
+    field_5: JSON.stringify([1, 2, 3]),
+    field_6: JSON.stringify(1),
+    field_7: JSON.stringify(0),
+    field_8: JSON.stringify(''),
+    field_9: JSON.stringify({greeting: 'hello'})
+};
+var rules = {
+    field_1: 'json',
+    field_2: 'json',
+    field_3: 'json',
+    field_4: 'json',
+    field_5: 'json',
+    field_6: 'json',
+    field_7: 'json',
+    field_8: 'json',
+    field_9: 'json:true'
+};
+
+var validator = V4Validator.make(data, rules);
+
+validator.validate(function(err) {
+    // this will pass, and data.field_9 will become a plain javascript object.
+});
+```
 
 #### max:value
 The field under validation must be less than or equal to a maximum `value`.

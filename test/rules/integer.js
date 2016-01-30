@@ -8,11 +8,13 @@ describe('integer', function() {
 
         var data = {
             field_1: '1',
-            field_2: 1
+            field_2: 1,
+            field_3: '2'
         };
         var rules = {
             field_1: 'integer',
-            field_2: 'integer'
+            field_2: 'integer',
+            field_3: 'integer:true'
         };
 
         var validator = V4Validator.make(data, rules);
@@ -23,6 +25,7 @@ describe('integer', function() {
 
                 throw err;
             }
+            data.field_3.should.be.instanceOf(Number);
             done();
         });
     });

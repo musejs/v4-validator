@@ -14,7 +14,8 @@ describe('json', function() {
             field_5: JSON.stringify([1, 2, 3]),
             field_6: JSON.stringify(1),
             field_7: JSON.stringify(0),
-            field_8: JSON.stringify('')
+            field_8: JSON.stringify(''),
+            field_9: JSON.stringify({greeting: 'hello'})
         };
         var rules = {
             field_1: 'json',
@@ -24,8 +25,8 @@ describe('json', function() {
             field_5: 'json',
             field_6: 'json',
             field_7: 'json',
-            field_8: 'json'
-
+            field_8: 'json',
+            field_9: 'json:true'
         };
 
         var validator = V4Validator.make(data, rules);
@@ -36,6 +37,7 @@ describe('json', function() {
 
                 throw err;
             }
+            data.field_9.greeting.should.equal('hello');
             done();
         });
     });

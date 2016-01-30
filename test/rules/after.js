@@ -33,11 +33,18 @@ describe('after', function() {
 
         var now = moment();
 
+        var second_day = now.clone().add(2, 'days');
+
         var data = {
-            field_1: now.clone().add(1, 'days').toISOString()
+            field_1: now.clone().add(1, 'days').toISOString(),
+            field_2: second_day.toISOString()
         };
         var rules = {
-            field_1: 'after:'+now.toISOString()
+            field_1: 'after:'+now.toISOString(),
+            field_2: {
+                rule: 'after',
+                args: [now.toISOString(), true]
+            }
         };
 
         var validator = V4Validator.make(data, rules);
@@ -48,9 +55,10 @@ describe('after', function() {
 
                 throw err;
             }
+            data.field_2.toISOString().should.equal(second_day.toISOString());
+
             done();
         });
-
 
     });
 

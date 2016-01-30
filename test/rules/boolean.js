@@ -14,7 +14,9 @@ describe('boolean', function() {
             field_5: '1',
             field_6: '0',
             field_7: 'true',
-            field_8: 'false'
+            field_8: 'false',
+            field_9: '1',
+            field_10: '0'
         };
         var rules = {
             field_1: 'boolean',
@@ -24,7 +26,9 @@ describe('boolean', function() {
             field_5: 'boolean',
             field_6: 'boolean',
             field_7: 'boolean',
-            field_8: 'boolean'
+            field_8: 'boolean',
+            field_9: 'boolean: true',
+            field_10: 'boolean: true'
         };
 
         var validator = V4Validator.make(data, rules);
@@ -35,6 +39,8 @@ describe('boolean', function() {
 
                 throw err;
             }
+            data.field_9.should.equal(true);
+            data.field_10.should.equal(false);
             done();
         });
     });

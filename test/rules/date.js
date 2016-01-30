@@ -16,7 +16,7 @@ describe('date', function() {
             field_4: 12334
         };
         var rules = {
-            field_1: 'date',
+            field_1: 'date:true',
             field_2: 'date',
             field_3: 'date',
             field_4: 'date'
@@ -30,6 +30,7 @@ describe('date', function() {
 
                 throw err;
             }
+            data.field_1.toISOString().should.equal(now.toISOString());
             done();
         });
 

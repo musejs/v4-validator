@@ -115,7 +115,14 @@ module.exports = {
             return callback(new Error('The date parameter is required.'));
         }
 
-        callback(null, moment(new Date(value)).isAfter(parameters[0]));
+        var date = moment(new Date(value));
+
+        if (parameters[1] && parameters[1].toString() == 'true') {
+
+            _.set(data, field, date);
+        }
+
+        callback(null, date.isAfter(parameters[0]));
     },
     /**
      * The field under validation must be entirely alphabetic characters.
@@ -203,7 +210,14 @@ module.exports = {
             return callback(new Error('The date parameter is required.'));
         }
 
-        callback(null, moment(new Date(value)).isBefore(parameters[0]));
+        var date = moment(new Date(value));
+
+        if (parameters[1] && parameters[1].toString() == 'true') {
+
+            _.set(data, field, date);
+        }
+
+        callback(null, date.isBefore(parameters[0]));
     },
     /**
      * The field under validation must have a size between the given min and max.
@@ -241,12 +255,18 @@ module.exports = {
 
         if (value == true || value == 'true' || value == 1 || value == '1') {
 
-            data[field] = true;
+            if (parameters[0] && parameters[0].toString() == 'true') {
+
+                _.set(data, field, true);
+            }
             return callback(null, true);
 
         } else if (value == false || value == 'false' || value == 0 || value == '0') {
 
-            data[field] = false;
+            if (parameters[0] && parameters[0].toString() == 'true') {
+
+                _.set(data, field, false);
+            }
             return callback(null, true);
         }
         callback(null, false);
@@ -281,7 +301,14 @@ module.exports = {
         var is_date = false;
         try {
 
-            is_date = moment(new Date(value)).isValid();
+            var date = moment(new Date(value));
+
+            if (parameters[0] && parameters[0].toString() == 'true') {
+
+                _.set(data, field, date);
+            }
+
+            is_date = date.isValid();
 
         } catch(e) {
 
@@ -306,9 +333,16 @@ module.exports = {
             return callback(new Error('The format parameter is required.'));
         }
 
-        var format = parameters.join(',');
+        var format = parameters[0];
 
-        callback(null, moment(value, format, true).isValid());
+        var date = moment(value, format, true);
+
+        if (parameters[1] && parameters[1].toString() == 'true') {
+
+            _.set(data, field, date);
+        }
+
+        callback(null, date.isValid());
     },
     /**
      * The field under validation must have a different value than field.
@@ -361,7 +395,7 @@ module.exports = {
 
         var length = isNumeric(value) && (value + '').length;
 
-        callback(null, length >= parseInt(parameters[0]) && length <= parseInt(parameters[1]));
+        callback(null, length >= Number(parameters[0]) && length <= Number(parameters[1]));
     },
     /**
      * The field under validation must be formatted as an e-mail address.
@@ -477,7 +511,16 @@ module.exports = {
      */
     integer: function(data, field, value, parameters, callback) {
 
-        callback(null, isNumeric(value) && parseInt(value, 10) == value);
+        var integer = parseInt(value, 10);
+
+        var result = isNumeric(value) && integer == value;
+
+        if (parameters[0] && parameters[0].toString() == 'true') {
+
+            _.set(data, field, integer);
+        }
+
+        callback(null, result);
     },
     /**
      * The field under validation must be an IP address.
@@ -506,6 +549,11 @@ module.exports = {
 
         try {
             var result = JSON.parse(value+'');
+
+            if (parameters[0] && parameters[0].toString() == 'true') {
+
+                _.set(data, field, result);
+            }
         }
         catch(e) {
             return callback(null, false);
