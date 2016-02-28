@@ -764,6 +764,9 @@ Returns a plain javascript object, whose keys are the failed fields, and the val
 #### `V4Validator.make(data, rules, messages)`
 Creates a new validator instance.
 
+#### `V4Validator.factoryConfig()`
+Returns the config options passed to the factory function as they currently stand.
+
 #### `V4Validator.rule(rule, closure)`
 Adds a new rule, or replaces an existing rule.
 

@@ -287,6 +287,11 @@ module.exports = function factory(config) {
             return new this(data, rules, messages);
         }
 
+        static factoryConfig() {
+
+            return config;
+        }
+
         /**
          * Add new rules.
          *
