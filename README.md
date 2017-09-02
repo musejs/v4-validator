@@ -1,7 +1,5 @@
 ## v4-validator
 
-This package is part of the [musejs](https://github.com/musejs) suite of components.
-
 This validator was inspired heavily by Laravel's [validator](http://laravel.com/docs/5.1/validation), in that it incorporates every rule present in that validator,
 and implements similar functionality.
 
@@ -14,7 +12,7 @@ Note: requires node.js 4.0 or higher.
 ## Usage
 
 ### Quickstart
-```
+```js
 var V4Validator = require('v4-validator')();
 
 /*
@@ -93,7 +91,7 @@ The field under validation must be a valid, active URL (determined by sending a 
 The field under validation must be a value after a given `date`.
 The dates will be passed into moment.js, and must therefore be [ISO-8601](http://momentjs.com/docs/##supported-iso-8601-strings) formatted.
 If `should_transform` is set to "true", the field under validation in `data` will be transformed to a moment.js object.
-```
+```js
 var data = {
     field_1: '2015-11-03T01:27:33.153Z',
     field_2: '2015-11-05T01:27:33.153Z'
@@ -124,7 +122,7 @@ The field under validation must be an array.
 The field under validation must be a value before a given `date`.
 The dates will be passed into moment.js, and must therefore be [ISO-8601](http://momentjs.com/docs/##supported-iso-8601-strings) formatted.
 If `should_transform` is set to "true", the field under validation in `data` will be transformed to a moment.js object.
-```
+```js
 var data = {
     field_1: '2015-11-03T01:27:33.153Z',
     field_2: '2015-11-01T01:27:33.153Z'
@@ -139,7 +137,7 @@ validator.validate(function(err) {
 ```
 #### between:min,max
 The field under validation must have a size between the given `min` and `max` (inclusive). Data is evaluated in the same fashion as the size rule.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 5,
@@ -162,7 +160,7 @@ validator.validate(function(err) {
 #### boolean[, should_transform]
 The field under validation must be able to be cast as a boolean. Accepted input are true, false, "true", "false", 1, 0, "1", and "0".
 If `should_transform` is set to "true", the field under validation in `data` will be transformed to a strict boolean value (true or false).
-```
+```js
 var data = {
     field_1: true,
     field_2: false,
@@ -202,7 +200,7 @@ For example, if the field under validation is password, a matching password_conf
 #### date[, should_transform]
 The field under validation must be a valid date according to moment.js, and must therefore be [ISO-8601](http://momentjs.com/docs/##supported-iso-8601-strings) formatted.
 If `should_transform` is set to "true", the field under validation in `data` will be transformed to a moment.js object.
-```
+```js
 var now = moment();
 
 var data = {
@@ -235,7 +233,7 @@ Further formatting details found [here](http://momentjs.com/docs/#/parsing/strin
 If `should_transform` is set to "true", the field under validation in `data` will be transformed to a moment.js object.
 
 Note: date formats that contain a comma should use the longer form of rule definition.  See `field_7` in the example below.
-```
+```js
 var now = moment();
 
 var data = {
@@ -282,7 +280,7 @@ validator.validate(function(err) {
 
 #### different:field
 The field under validation must have a different value than `field`.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 'hi'
@@ -300,7 +298,7 @@ validator.validate(function(err) {
 #### digits:value
 The field under validation must be numeric and must have an exact length of `value`.
 This counts non-numeric characters in its length.
-```
+```js
 var data = {
     field_1: '123',
     field_2: 123,
@@ -319,11 +317,11 @@ var validator = V4Validator.make(data, rules);
 validator.validate(function(err) {
     // this will pass.
 });
-```
+```js
 
 #### digits_between:min,max
 The field under validation must have a length between the given min and max (inclusive).
-```
+```js
 var data = {
     field_1: '123',
     field_2: 123,
@@ -357,7 +355,7 @@ in the filesystem. If it is a URL, it must be an active URL.
 
 #### in:...values
 The field under validation must be included in the given list of `values`.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 'hello'
@@ -377,7 +375,7 @@ validator.validate(function(err) {
 #### integer[, should_transform]
 The field under validation must be an integer.
 If `should_transform` is set to "true", the field under validation in `data` will be transformed to a Number.
-```
+```js
 var data = {
     field_1: '1',
     field_2: 1,
@@ -402,7 +400,7 @@ The field under validation must be an IP address.
 #### json[, should_transform]
 The field under validation must a valid JSON string.
 If `should_transform` is set to "true", the field under validation in `data` will be transformed to its JSON-parsed equivalent.
-```
+```js
 var data = {
     field_1: JSON.stringify('hello'),
     field_2: JSON.stringify({greeting: 'hello'}),
@@ -436,7 +434,7 @@ validator.validate(function(err) {
 #### max:value
 The field under validation must be less than or equal to a maximum `value`.
 Data is evaluated in the same fashion as the size rule.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 5,
@@ -462,7 +460,7 @@ This accepts either a file path or a URL. MIME is checked in both instances, but
 If the field is a file path, it must exist in the filesystem. If it is a URL, it must be an active URL.
 
 Alternatively, you may use actual MIME types, rather than extensions, e.g. "text/html" instead of "html".
-```
+```js
 var data = {
     field_1: 'sample-bmp.bmp',
     field_2: 'sample-gif.gif',
@@ -492,11 +490,11 @@ var validator = V4Validator.make(data, rules);
 validator.validate(function(err) {
     // this will pass.
 });
-```
+```js
 #### min:value
 The field under validation must have a minimum `value`.
 Data is evaluated in the same fashion as the size rule.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 5,
@@ -518,7 +516,7 @@ validator.validate(function(err) {
 
 #### not_in:...values
 The field under validation must not be included in the given list of `values`.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 'hello'
@@ -543,7 +541,7 @@ The field under validation must be a plain object.
 
 #### regex:pattern[,...flags]
 The field under validation must match the given regular expression `pattern`, with optional `flags`.
-```
+```js
 var data = {
     field_1: '123',
     field_2: 123,
@@ -570,7 +568,7 @@ The field under validation must be present in the input data.
 
 #### required_if:another_field[,...values]
 The field under validation must be present if `another_field` is equal to any `values`.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 'hi',
@@ -600,7 +598,7 @@ validator.validate(function(err) {
 
 #### required_with:...fields
 The field under validation must be present only if any of the other specified `fields` are present.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 'hi',
@@ -624,7 +622,7 @@ validator.validate(function(err) {
 
 #### required_with_all:...fields
 The field under validation must be present only if all of the other specified `fields` are present.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 'hi',
@@ -643,11 +641,11 @@ var validator = V4Validator.make(data, rules);
 validator.validate(function(err) {
     // this will pass.
 });
-```
+```js
 
 #### required_without:...fields
 The field under validation must be present only when any of the other specified `fields` are not present.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 'hi',
@@ -671,7 +669,7 @@ validator.validate(function(err) {
 
 #### required_without_all
 The field under validation must be present only when all of the other specified fields are not present.
-```
+```js
 var data = {
     field_1: 'hello',
     field_3: 'hola',
@@ -694,7 +692,7 @@ validator.validate(function(err) {
 
 #### same:field
 The given `field` must match the field under validation.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 'hello'
@@ -714,7 +712,7 @@ validator.validate(function(err) {
 The field under validation must have a size matching the given `value`.
 For numeric data, value corresponds to a given number value.
 For all other values, corresponds to the value of a "length" parameter.
-```
+```js
 var data = {
     field_1: 'hello',
     field_2: 5,
@@ -787,13 +785,13 @@ More details [here](#custom-error-handling)
 ### The factory function
 
 The full factory function with all its (optional) arguments are as follows:
-```
+```js
 var V4Validator = require('v4-validator')(config);
 ```
 
 `config` is an object that can be used to override the defaults used. Any and all properties supplied are optional.
 Under the hood, [_.defaultsDeep](https://lodash.com/docs#defaultsDeep) is used. Here's the full possible structure:
-```
+```js
 {
     messages: {
         [rule]: 'The message for this rule.'
@@ -810,7 +808,7 @@ Under the hood, [_.defaultsDeep](https://lodash.com/docs#defaultsDeep) is used. 
 
 `errorHandler` is a function that can be used to override the default handling of errors. Whatever is returned from this
 function will be passed as the error in a failed validation. The signature is as follows:
-```
+```js
 function(errors) {}
 ```
 
@@ -818,7 +816,7 @@ function(errors) {}
 
 You may either add new rules or override existing rule implementations by supplying it in the factory's `config` object,
 or if you already have a `V4Validator` class, you may call the `rule` method:
-```
+```js
 var V4Validator = require('v4-validator')();
 
 V4Validator.rule('equals_something', function(data, field, value, parameters, callback) {
@@ -847,7 +845,7 @@ Conditional rules can be applied in one of two ways. The first way works for rul
 is present in the data. You do this by adding the "sometimes" rule before any others.
 
 ##### Example 1:
-```
+```js
 var data = {
     meal_selection: 'meat'
 };
@@ -864,7 +862,7 @@ validator.validate(function(err) {
 });
 ```
 ##### Example 2:
-```
+```js
 var data = {
     meal_selection: 'meat',
     type_of_meat: 'turkey'
@@ -889,7 +887,7 @@ validator.validate(function(err) {
 For cases that require more complex conditions, you may use the `sometimes` method of the validator instance.
 
 It's signature is:
-```
+```js
 validator.sometimes(field, rules, condition);
 ```
 - `field` is the name of the field to apply the rules.
@@ -897,7 +895,7 @@ validator.sometimes(field, rules, condition);
 - `condition` is a function that should return a boolean to indicate if to apply the `rules` or not. It is supplied with the `data` object as an argument.
 
 ##### Example 1:
-```
+```js
 var data = {
     meal_selection: 'meat'
 };
@@ -938,7 +936,7 @@ replacers are called.
 
 You may add or overwrite the default replacers with your own functions by either supplying them in the factory's `config` object,
 or if you already have a `V4Validator` class, you may call the `replacer` method:
-```
+```js
 var V4Validator = require('../src/factory')();
 
 V4Validator.replacer('required', function(field, constraint) {
@@ -963,7 +961,7 @@ replaced ":attribute" with the field name with spaces instead of non-alphanumeri
 
 To overwrite the default replacer, you must first get the default replacer's key, which is actually a Symbol object (to prevent key collisions).
 You may do so by first calling `V4Validator.defaultReplacerKey()`.
-```
+```js
 var default_replacer_key = V4Validator.defaultReplacerKey();
 V4Validator.replacer(default_replacer_key, function(field, constraint) {
     // do your replacing
@@ -978,7 +976,7 @@ That *something* will be returned when `validator.validate` is called.
 
 You may replace the default error handler function by supplying it in the factory's `config` object,
 or if you already have a `V4Validator` class, you may call the `errorHandler` method:
-```
+```js
 var V4Validator = require('v4-validator')();
 
 V4Validator.errorHandler(function(errors) {

@@ -1,27 +1,27 @@
 {
   "name": "v4-validator",
-  "version": "0.4.0",
-  "description": "Handy extensible validator for inspirationjs.",
+  "version": "1.0.0",
+  "description": "Handy extensible validator.",
   "main": "./src/factory.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive --reporter nyan"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/musejs/v4-validator.git"
+    "url": "git+https://github.com/shaunpersad/v4-validator.git"
   },
   "keywords": [
     "validator",
     "validation",
     "inspirationjs",
-    "musejs"
+    "shaunpersad"
   ],
-  "author": "Shaun Persad <shaunpersad@gmail.com> (http://inspirationjs.io)",
+  "author": "Shaun Persad <shaunpersad@gmail.com> (http://github.com/shaunpersad)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/musejs/v4-validator/issues"
+    "url": "https://github.com/shaunpersad/v4-validator/issues"
   },
-  "homepage": "https://github.com/musejs/v4-validator#readme",
+  "homepage": "https://github.com/shaunpersad/v4-validator#readme",
   "dependencies": {
     "async": "^1.5.0",
     "file-type": "^3.1.0",
