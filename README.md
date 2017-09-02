@@ -317,7 +317,7 @@ var validator = V4Validator.make(data, rules);
 validator.validate(function(err) {
     // this will pass.
 });
-```js
+```
 
 #### digits_between:min,max
 The field under validation must have a length between the given min and max (inclusive).
