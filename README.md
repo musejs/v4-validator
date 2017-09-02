@@ -17,7 +17,7 @@ var V4Validator = require('v4-validator')();
 
 /*
  * This data would probably come from a request, instead of laid out like this.
- * /
+ */
 var data = {
     preferred_greeting: 'hello',
     secondary_greeting: 'hola',
